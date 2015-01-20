@@ -1,9 +1,26 @@
+import javax.persistence.*;
 
+@Entity
 public class Home {
+	
+	private long id;
 	private String address;
 	private int size;
 	private String ipAddress;
 	private int roomQty;
+	
+    public Home() {
+		super();
+	}
+	
+	@Id
+	@GeneratedValue
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
 	public String getAddress() {
 		return address;
 	}
