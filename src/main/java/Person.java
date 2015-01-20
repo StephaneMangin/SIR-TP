@@ -1,6 +1,10 @@
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
+
+import org.hibernate.engine.spi.CascadingAction;
 
 @Entity
 public class Person {
@@ -12,6 +16,7 @@ public class Person {
 	private String email;
 	private String facebookProfile;
     private Date birthday;
+    private List<Home> homes = new ArrayList<Home>();
     
     public Person() {
 		super();
@@ -25,6 +30,13 @@ public class Person {
 		this.id = id;
 	}
 	
+	@OneToMany(cascade=CascadeType.PERSIST, mappedBy="person")
+	public List<Home> getHomes() {
+		return homes;
+	}
+	public void setHomes(List<Home> homes) {
+		this.homes = homes;
+	}
 	public String getName() {
 		return name;
 	}

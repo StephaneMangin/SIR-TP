@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,6 +11,9 @@ public class Home {
 	private int size;
 	private String ipAddress;
 	private int roomQty;
+	private Person person;
+	private List<Heater> heatrs = new ArrayList<Heater>();
+	private List<ElectronicDevice> devices = new ArrayList<ElectronicDevice>();
 	
     public Home() {
 		super();
@@ -21,6 +27,15 @@ public class Home {
 	public void setId(long id) {
 		this.id = id;
 	}
+	@ManyToOne
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
 	public String getAddress() {
 		return address;
 	}
@@ -44,6 +59,24 @@ public class Home {
 	}
 	public void setRoomQty(int roomQty) {
 		this.roomQty = roomQty;
+	}
+
+	@OneToMany(cascade=CascadeType.REMOVE, mappedBy="home")
+	public List<Heater> getHeatrs() {
+		return heatrs;
+	}
+
+	public void setHeatrs(List<Heater> heatrs) {
+		this.heatrs = heatrs;
+	}
+
+	@OneToMany(cascade=CascadeType.REMOVE, mappedBy="home")
+	public List<ElectronicDevice> getDevices() {
+		return devices;
+	}
+
+	public void setDevices(List<ElectronicDevice> devices) {
+		this.devices = devices;
 	}
 	
 

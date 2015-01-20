@@ -35,11 +35,13 @@ public class JpaTest {
 		Home home11 = new Home();
 		home11.setIpAddress("192.45.185.42");
 		home11.setRoomQty(5);
+		home11.setPerson(person1);
 		home11.setAddress("3Rue de la salamandre 35000 RENNES");
 		manager.persist(home11);
 		Home home12 = new Home();
 		home12.setIpAddress("192.45.185.43");
 		home12.setRoomQty(3);
+		home12.setPerson(person1);
 		home12.setAddress("73 Bvd de la Liberté 35000 RENNES");
 		manager.persist(home12);
 
@@ -55,6 +57,7 @@ public class JpaTest {
 		Home home21 = new Home();
 		home21.setIpAddress("161.24.210.102");
 		home21.setRoomQty(3);
+		home21.setPerson(person2);
 		home21.setAddress("Immeuble Omega 35000 RENNES");
 		manager.persist(home21);
 
@@ -70,11 +73,13 @@ public class JpaTest {
 		Home home31 = new Home();
 		home31.setIpAddress("12.145.85.142");
 		home31.setRoomQty(5);
+		home31.setPerson(person3);
 		home31.setAddress("50 Bvd des Alliés 35000 RENNES");
 		manager.persist(home31);
 		Home home32 = new Home();
 		home32.setIpAddress("19.125.85.60");
 		home32.setRoomQty(6);
+		home32.setPerson(person3);
 		home32.setAddress("1 Place du Palais 35000 RENNES");
 		manager.persist(home32);
 
@@ -90,6 +95,7 @@ public class JpaTest {
 		Home home41 = new Home();
 		home41.setIpAddress("92.145.85.202");
 		home41.setRoomQty(8);
+		home41.setPerson(person4);
 		home41.setAddress("25 Avenue des mouches 35000 RENNES");
 		manager.persist(home41);
 
@@ -105,6 +111,7 @@ public class JpaTest {
 		Home home51 = new Home();
 		home51.setIpAddress("152.125.145.42");
 		home51.setRoomQty(2);
+		home51.setPerson(person5);
 		home51.setAddress("64 Route de Lorient 35000 RENNES");
 		manager.persist(home51);
 		
