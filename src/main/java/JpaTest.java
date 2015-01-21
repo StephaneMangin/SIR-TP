@@ -20,7 +20,7 @@ public class JpaTest {
 		EntityManager manager = factory.createEntityManager();
 		JpaTest jpa = new JpaTest(manager);
 		EntityTransaction tx = manager.getTransaction();
-		
+
 		tx.begin();
 		
 		// Personne 1
@@ -114,6 +114,14 @@ public class JpaTest {
 		home51.setPerson(person5);
 		home51.setAddress("64 Route de Lorient 35000 RENNES");
 		manager.persist(home51);
+		
+		// Attribution des amis
+		person1.addFriend(person2);
+		person1.addFriend(person3);
+		person2.addFriend(person3);
+		person2.addFriend(person5);
+		person4.addFriend(person1);
+		person5.addFriend(person1);
 		
 		tx.commit();
 	}

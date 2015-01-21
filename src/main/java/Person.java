@@ -30,13 +30,75 @@ public class Person {
 		this.id = id;
 	}
 	
+	/**
+	 * Retourne la liste de maison
+	 * 
+	 * @return
+	 */
 	@OneToMany(cascade=CascadeType.PERSIST, mappedBy="person")
 	public List<Home> getHomes() {
 		return homes;
 	}
+	/**
+	 * Remplace la liste de maison
+	 * Attention appel récursif.
+	 * 
+	 * Process de mise à jour : 
+	 * Pour chaque ancienne maison, désattribuer this uniquement si this est la relation d'origines.
+	 * Remettre à jour les nouvelles maison en attribuant this uniquement si aucune personne n'a déjà été attribué.
+	 * On remplace effectivement la liste de maison par la nouvelle remise à jour le cas échéant (maison déjà attribuée).
+	 * 
+	 * @param homes
+	 */
 	public void setHomes(List<Home> homes) {
+		for (Home home: this.homes) {
+			if (home.getPerson().equals(this)) {
+				home.setPerson(null);
+			}
+		}
+		for (Home home: homes) {
+			if (home.getPerson() == null) {
+				home.setPerson(this);
+			} else {
+				homes.remove(home);
+			}
+		}
 		this.homes = homes;
+
 	}
+	/** 
+	 * Ajouter une maison
+	 * 
+	 * Attention appel récursif, ne pas s'attribuer la maison si déjà attribuer à quelqu'un.
+	 * 
+	 * 
+	 * @param home
+	 */
+	public void addHome(Home home) {
+		if (home.getPerson() != null && home.getPerson().equals(this)) {
+			this.homes.add(home);
+			home.setPerson(this);
+		}
+	}
+	/**
+	 * Supprimer une maison
+	 * 
+	 * Attention appel récursif, ne modifier la relation si this est le propriétaire de la maison
+	 * et que la maison a bien comme propriétaire this.
+	 * 
+	 * @param home
+	 */
+	public void delHome(Home home) {
+		if (home.getPerson().equals(this) && this.homes.contains(home)) {
+			this.homes.remove(home);
+			home.setPerson(null);
+		}
+	}
+	/**
+	 * Retourne la liste d'amis
+	 * 
+	 * @return
+	 */
 	@ManyToMany
 	  @JoinTable(
 	      name="PERSON_FRIENDS",
@@ -45,8 +107,52 @@ public class Person {
 	public List<Person> getFriends() {
 		return friends;
 	}
+	
+	/**
+	 * Remplace la liste d'amis et met à jour la liste de chaque ami
+	 * Attention car appel récursif, l'invariante d'arrêt est la présence
+	 * de this dans la liste de l'ami.
+	 * 
+	 * @param friends
+	 */
 	public void setFriends(List<Person> friends) {
+		// On commence par supprimer this dans chaque ancien ami.
+		for (Person friend: this.friends) {
+			if (friend.getFriends().contains(this)) {
+				friend.delFriend(this);
+			}
+		}
+		// On attribue la nouvelle liste d'amis
 		this.friends = friends;
+		// On recrée ensuite la relation inverse
+		for (Person friend: this.friends) {
+			friend.addFriend(this);
+		}
+	}
+	/**
+	 * Ajoute un ami et ajout this dans la liste de l'ami
+	 * Attention appel récursif, l'invariante d'arrêt est que this n'est pas déjà dans la liste du nouvel ami
+	 * 
+	 * @param person
+	 */
+	public void addFriend(Person friend) {
+		this.friends.add(friend);
+		if (!friend.getFriends().contains(this)) {
+			friend.addFriend(this);
+		}
+	}
+	/**
+	 * Supprime un ami
+	 * Attention car récursif, l'invariante d'arrêt est la présence de this dans la liste d'ami de old_friend
+	 * 
+	 * @param old_friend
+	 */
+	public void delFriend(Person old_friend) {
+		this.friends.remove(old_friend);
+		if (old_friend.getFriends().contains(this)) {
+			old_friend.delFriend(this);
+		}
+		
 	}
 	public String getName() {
 		return name;
