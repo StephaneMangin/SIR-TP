@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.hibernate.engine.spi.CascadingAction;
 
 @Entity
 public class Person {
@@ -17,6 +16,7 @@ public class Person {
 	private String facebookProfile;
     private Date birthday;
     private List<Home> homes = new ArrayList<Home>();
+    private List<Person> friends = new ArrayList<Person>();
     
     public Person() {
 		super();
@@ -36,6 +36,17 @@ public class Person {
 	}
 	public void setHomes(List<Home> homes) {
 		this.homes = homes;
+	}
+	@ManyToMany
+	  @JoinTable(
+	      name="PERSON_FRIENDS",
+	      joinColumns={@JoinColumn(name="PERSON_ID", referencedColumnName="ID")},
+	      inverseJoinColumns={@JoinColumn(name="FRIEND_ID", referencedColumnName="ID")})
+	public List<Person> getFriends() {
+		return friends;
+	}
+	public void setFriends(List<Person> friends) {
+		this.friends = friends;
 	}
 	public String getName() {
 		return name;
