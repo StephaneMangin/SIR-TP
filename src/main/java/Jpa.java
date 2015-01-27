@@ -12,6 +12,7 @@ public class Jpa {
 		this.manager = manager;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void createPersons(){
 		int numOfPersons = manager.createQuery("SELECT a FROM Person a", Person.class).getResultList().size();
 		if (numOfPersons == 0) {
