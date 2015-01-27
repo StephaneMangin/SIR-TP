@@ -1,3 +1,4 @@
+package fr.istic.tpjpa.jpa;
 
 public interface DeviceInterface {
 
