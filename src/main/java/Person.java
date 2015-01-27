@@ -190,5 +190,8 @@ public class Person {
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
+	public String fullName() {
+		return this.name + " " + this.firstname;
+	}
 
 }
