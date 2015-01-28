@@ -1,17 +1,11 @@
 package fr.istic.tpjpa.jpa;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 
-import org.hibernate.ejb.criteria.expression.ConcatExpression;
+import fr.istic.tpjpa.domain.*;
 
 public class JpaTest {
 
@@ -146,6 +140,37 @@ public class JpaTest {
 			System.out.println("Next person : " + person.fullName());
 		}
 	}
+
+	public void n1Select() {
+		TypedQuery<Person> q = manager.createQuery(
+				"select p from Person p", Person.class);
+		long start = System.currentTimeMillis();
+		List<Person> res = q.getResultList();
+		for (Person p : res) {
+			for (Home h : p.getHomes()) {
+				h.getIpAddress();
+			}
+		}
+		long end = System.currentTimeMillis();
+		long duree = end - start;
+		System.err.println("N1Select : temps d'exec = " + duree);
+	}
+	
+	public void joinFetch() {
+		TypedQuery<Person> q = manager.createQuery(
+				"select distinct p from Person p join fetch p.homes h",
+				Person.class);
+		long start = System.currentTimeMillis();
+		List<Person> res = q.getResultList();
+		for (Person p : res) {
+			for (Home h : p.getHomes()) {
+				h.getIpAddress();
+			}
+		}
+		long end = System.currentTimeMillis();
+		long duree = end - start;
+		System.err.println("joinFetch: temps d'exec = " + duree);
+	}
 	
 	/**
 	 * @param args
@@ -158,16 +183,13 @@ public class JpaTest {
 
 		EntityTransaction tx = manager.getTransaction();
 		tx.begin();
-
-
 		test.createPersons();
 		test.listPersons();
-		
 		tx.commit();
 
-		// TODO run request
-
-		System.out.println(".. done");
+		// Requests
+		test.joinFetch();
+		test.n1Select();
 	}
 
 }

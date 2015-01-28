@@ -1,4 +1,4 @@
-package fr.istic.tpjpa.jpa;
+package fr.istic.tpjpa.domain;
 
 public interface DeviceInterface {
 
