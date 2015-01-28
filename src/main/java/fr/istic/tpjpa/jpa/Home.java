@@ -108,29 +108,31 @@ public class Home {
 				heatr.setHome(null);
 			}
 		}
+		List<Heater> actual_heatsr = new ArrayList<Heater>();
 		for (Heater heatr: heatrs) {
 			if (heatr.getHome() == null) {
 				heatr.setHome(this);
-			} else {
-				heatrs.remove(heatr);
+				actual_heatsr.add(heatr);
 			}
 		}
-		this.heatrs = heatrs;
+		this.heatrs = actual_heatsr;
 
 	}
 	/** 
 	 * Ajouter un chauffage
 	 * 
-	 * Attention appel récursif, ne pas s'attribuer le chauffage si déjà attribuer à une maison.
+	 * Attention appel récursif.
+	 * On commence par enlever le heater de son ancienne maison potentielle.
 	 * 
 	 * 
 	 * @param heatr
 	 */
 	public void addHeatr(Heater heatr) {
-		if (heatr.getHome() != null && heatr.getHome().equals(this)) {
-			this.heatrs.add(heatr);
-			heatr.setHome(this);
+		if (heatr.getHome() != null) {
+			heatr.getHome().delHeater(heatr);
 		}
+		this.heatrs.add(heatr);
+		heatr.setHome(this);
 	}
 	/**
 	 * Supprimer un chauffage
@@ -174,29 +176,31 @@ public class Home {
 				device.setHome(null);
 			}
 		}
+		List<ElectronicDevice> actual_devices = new ArrayList<ElectronicDevice>();
 		for (ElectronicDevice device: devices) {
 			if (device.getHome() == null) {
 				device.setHome(this);
-			} else {
-				heatrs.remove(device);
+				actual_devices.add(device);
 			}
 		}
-		this.devices = devices;
+		this.devices = actual_devices;
 
 	}
 	/** 
 	 * Ajouter un device
 	 * 
-	 * Attention appel récursif, ne pas s'attribuer le device si déjà attribuer à une maison.
+	 * Attention appel récursif.
+	 * On commence par enlever le device de son ancienne maison potentielle.
 	 * 
 	 * 
 	 * @param heatr
 	 */
 	public void addDevice(ElectronicDevice device) {
-		if (device.getHome() != null && device.getHome().equals(this)) {
-			this.devices.add(device);
-			device.setHome(this);
+		if (device.getHome() != null) {
+			device.getHome().delDevice(device);
 		}
+		this.devices.add(device);
+		device.setHome(this);
 	}
 	/**
 	 * Supprimer un device
@@ -212,6 +216,5 @@ public class Home {
 			device.setHome(null);
 		}
 	}
-
 
 }

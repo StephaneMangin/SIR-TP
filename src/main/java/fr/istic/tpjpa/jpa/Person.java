@@ -57,14 +57,14 @@ public class Person {
 				home.setPerson(null);
 			}
 		}
+		List<Home> actual_homes = new ArrayList<Home>();
 		for (Home home: homes) {
 			if (home.getPerson() == null) {
 				home.setPerson(this);
-			} else {
-				homes.remove(home);
+				actual_homes.add(home);
 			}
 		}
-		this.homes = homes;
+		this.homes = actual_homes;
 
 	}
 	/** 
@@ -102,9 +102,9 @@ public class Person {
 	 */
 	@ManyToMany
 	  @JoinTable(
-	      name="PERSON_FRIENDS",
-	      joinColumns={@JoinColumn(name="PERSON_ID", referencedColumnName="ID")},
-	      inverseJoinColumns={@JoinColumn(name="FRIEND_ID", referencedColumnName="ID")})
+	      name="person_friends",
+	      joinColumns={@JoinColumn(name="person_id", referencedColumnName="id")},
+	      inverseJoinColumns={@JoinColumn(name="friend_id", referencedColumnName="id")})
 	public List<Person> getFriends() {
 		return friends;
 	}
@@ -117,14 +117,15 @@ public class Person {
 	 * @param friends
 	 */
 	public void setFriends(List<Person> friends) {
+		List<Person> actual_friends = new ArrayList<Person>();
 		// On commence par supprimer this dans chaque ancien ami.
 		for (Person friend: this.friends) {
-			if (friend.getFriends().contains(this)) {
-				friend.delFriend(this);
+			if (!friend.getFriends().contains(this)) {
+				actual_friends.add(friend);
 			}
 		}
 		// On attribue la nouvelle liste d'amis
-		this.friends = friends;
+		this.friends = actual_friends;
 		// On recrée ensuite la relation inverse
 		for (Person friend: this.friends) {
 			friend.addFriend(this);
