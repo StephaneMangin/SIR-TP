@@ -16,6 +16,7 @@ public class JpaTest {
 	}
 	
 	/**
+	 * 
 	 * Create and link homes with persons
 	 * Autogenerates devices based on paramaters qties
 	 * 
