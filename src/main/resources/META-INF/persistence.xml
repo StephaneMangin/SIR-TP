@@ -8,10 +8,9 @@
     <persistence-unit name="example">
 	    <properties>
 		    <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-			<property name="hibernate.hbm2ddl.auto" value="create"/>
+			<property name="hibernate.hbm2ddl.auto" value="update"/>
 			<property name="hibernate.show_sql" value="false"/>
 		    <property name="hibernate.archive.autodetection" value="class, hbm"/>
-		    <property name="hibernate.show_sql" value="true"/>
 		    <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
 		    <property name="hibernate.connection.password" value="1camel,/"/>
 		    <property name="hibernate.connection.url" value="jdbc:mysql://anteros.istic.univ-rennes1.fr/base_11012591"/>

@@ -102,17 +102,17 @@ public class Home {
 	 * 
 	 * @param heatrs
 	 */
-	public void setHeatrs(List<Heater> heatrs) {
+	public void setHeatrs(List<AbstractDevice> heatrs) {
 		for (Heater heatr: this.heatrs) {
 			if (heatr.getHome().equals(this)) {
 				heatr.setHome(null);
 			}
 		}
 		List<Heater> actual_heatsr = new ArrayList<Heater>();
-		for (Heater heatr: heatrs) {
+		for (AbstractDevice heatr: heatrs) {
 			if (heatr.getHome() == null) {
 				heatr.setHome(this);
-				actual_heatsr.add(heatr);
+				actual_heatsr.add((Heater) heatr);
 			}
 		}
 		this.heatrs = actual_heatsr;
@@ -127,11 +127,11 @@ public class Home {
 	 * 
 	 * @param heatr
 	 */
-	public void addHeatr(Heater heatr) {
+	public void addHeatr(AbstractDevice heatr) {
 		if (heatr.getHome() != null) {
-			heatr.getHome().delHeater(heatr);
+			heatr.getHome().delHeater((Heater) heatr);
 		}
-		this.heatrs.add(heatr);
+		this.heatrs.add((Heater) heatr);
 		heatr.setHome(this);
 	}
 	/**
@@ -142,7 +142,7 @@ public class Home {
 	 * 
 	 * @param home
 	 */
-	public void delHeater(Heater heatr) {
+	public void delHeater(AbstractDevice heatr) {
 		if (heatr.getHome().equals(this) && this.heatrs.contains(heatr)) {
 			this.heatrs.remove(heatr);
 			heatr.setHome(null);
@@ -170,17 +170,17 @@ public class Home {
 	 * 
 	 * @param devices
 	 */
-	public void setDevices(List<ElectronicDevice> devices) {
+	public void setDevices(List<AbstractDevice> devices) {
 		for (ElectronicDevice device: this.devices) {
 			if (device.getHome().equals(this)) {
 				device.setHome(null);
 			}
 		}
 		List<ElectronicDevice> actual_devices = new ArrayList<ElectronicDevice>();
-		for (ElectronicDevice device: devices) {
+		for (AbstractDevice device: devices) {
 			if (device.getHome() == null) {
 				device.setHome(this);
-				actual_devices.add(device);
+				actual_devices.add((ElectronicDevice) device);
 			}
 		}
 		this.devices = actual_devices;
@@ -195,12 +195,12 @@ public class Home {
 	 * 
 	 * @param heatr
 	 */
-	public void addDevice(ElectronicDevice device) {
-		if (device.getHome() != null) {
-			device.getHome().delDevice(device);
+	public void addDevice(AbstractDevice abstractDevice) {
+		if (abstractDevice.getHome() != null) {
+			abstractDevice.getHome().delDevice(abstractDevice);
 		}
-		this.devices.add(device);
-		device.setHome(this);
+		this.devices.add((ElectronicDevice) abstractDevice);
+		abstractDevice.setHome(this);
 	}
 	/**
 	 * Supprimer un device
@@ -210,7 +210,7 @@ public class Home {
 	 * 
 	 * @param home
 	 */
-	public void delDevice(ElectronicDevice device) {
+	public void delDevice(AbstractDevice device) {
 		if (device.getHome().equals(this) && this.heatrs.contains(device)) {
 			this.devices.remove(device);
 			device.setHome(null);
