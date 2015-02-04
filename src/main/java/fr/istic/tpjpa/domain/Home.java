@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.codehaus.jettison.json.JSONArray;
+
 @Entity
-public class Home {
+public class Home extends JSONArray {
 	
 	private long id;
 	private String address;
@@ -147,5 +149,5 @@ public class Home {
 			device.setHome(null);
 		}
 	}
-
+	
 }
