@@ -13,8 +13,7 @@ public class Home {
 	private String ipAddress;
 	private int roomQty;
 	private Person person;
-	private List<Heater> heatrs = new ArrayList<Heater>();
-	private List<ElectronicDevice> devices = new ArrayList<ElectronicDevice>();
+	private List<AbstractDevice> devices = new ArrayList<AbstractDevice>();
 	
     public Home() {
 		super();
@@ -82,80 +81,12 @@ public class Home {
 	}
 	
 	/**
-	 * Retourn la liste des chauffages
-	 * 
-	 * @return
-	 */
-	@OneToMany(cascade=CascadeType.REMOVE, mappedBy="home")
-	public List<Heater> getHeatrs() {
-		return heatrs;
-	}
-	
-	/**
-	 * Remplace la liste de chauffage
-	 * Attention appel récursif.
-	 * 
-	 * Process de mise à jour : 
-	 * Pour chaque ancienne maison, désattribuer this uniquement si this est la relation d'origines.
-	 * Remettre à jour les nouveauc chauffages en attribuant this uniquement si aucune maison n'a déjà été attribué.
-	 * On remplace effectivement la liste de chauffage par la nouvelle remise à jour le cas échéant (chauffage déjà attribuée).
-	 * 
-	 * @param heatrs
-	 */
-	public void setHeatrs(List<AbstractDevice> heatrs) {
-		for (Heater heatr: this.heatrs) {
-			if (heatr.getHome().equals(this)) {
-				heatr.setHome(null);
-			}
-		}
-		List<Heater> actual_heatsr = new ArrayList<Heater>();
-		for (AbstractDevice heatr: heatrs) {
-			if (heatr.getHome() == null) {
-				heatr.setHome(this);
-				actual_heatsr.add((Heater) heatr);
-			}
-		}
-		this.heatrs = actual_heatsr;
-
-	}
-	/** 
-	 * Ajouter un chauffage
-	 * 
-	 * Attention appel récursif.
-	 * On commence par enlever le heater de son ancienne maison potentielle.
-	 * 
-	 * 
-	 * @param heatr
-	 */
-	public void addHeatr(AbstractDevice heatr) {
-		if (heatr.getHome() != null) {
-			heatr.getHome().delHeater((Heater) heatr);
-		}
-		this.heatrs.add((Heater) heatr);
-		heatr.setHome(this);
-	}
-	/**
-	 * Supprimer un chauffage
-	 * 
-	 * Attention appel récursif, ne modifier la relation que si this est le propriétaire du chauffage
-	 * et que le chauffage a bien comme propriétaire this.
-	 * 
-	 * @param home
-	 */
-	public void delHeater(AbstractDevice heatr) {
-		if (heatr.getHome().equals(this) && this.heatrs.contains(heatr)) {
-			this.heatrs.remove(heatr);
-			heatr.setHome(null);
-		}
-	}
-	
-	/**
 	 * Retourn la liste des devices
 	 * 
 	 * @return
 	 */
 	@OneToMany(cascade=CascadeType.REMOVE, mappedBy="home")
-	public List<ElectronicDevice> getDevices() {
+	public List<AbstractDevice> getDevices() {
 		return devices;
 	}
 	
@@ -171,16 +102,16 @@ public class Home {
 	 * @param devices
 	 */
 	public void setDevices(List<AbstractDevice> devices) {
-		for (ElectronicDevice device: this.devices) {
+		for (AbstractDevice device: this.devices) {
 			if (device.getHome().equals(this)) {
 				device.setHome(null);
 			}
 		}
-		List<ElectronicDevice> actual_devices = new ArrayList<ElectronicDevice>();
+		List<AbstractDevice> actual_devices = new ArrayList<AbstractDevice>();
 		for (AbstractDevice device: devices) {
 			if (device.getHome() == null) {
 				device.setHome(this);
-				actual_devices.add((ElectronicDevice) device);
+				actual_devices.add(device);
 			}
 		}
 		this.devices = actual_devices;
@@ -199,7 +130,7 @@ public class Home {
 		if (abstractDevice.getHome() != null) {
 			abstractDevice.getHome().delDevice(abstractDevice);
 		}
-		this.devices.add((ElectronicDevice) abstractDevice);
+		this.devices.add(abstractDevice);
 		abstractDevice.setHome(this);
 	}
 	/**
@@ -211,7 +142,7 @@ public class Home {
 	 * @param home
 	 */
 	public void delDevice(AbstractDevice device) {
-		if (device.getHome().equals(this) && this.heatrs.contains(device)) {
+		if (device.getHome().equals(this) && this.devices.contains(device)) {
 			this.devices.remove(device);
 			device.setHome(null);
 		}

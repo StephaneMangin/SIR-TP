@@ -70,11 +70,11 @@ public class Devices extends HttpServlet {
 		tx.begin();
 		AbstractDevice device = null;
 		if (request.getParameter("type").equals("Heater")) {
-			Heater device1 = new Heater();
+			device = new Heater();
 		} else if (request.getParameter("type").equals("ElectronicDevice")) {
-			ElectronicDevice device1 = new ElectronicDevice();
+			device = new ElectronicDevice();
 		}
-		device1.setWattHeure(Integer.parseInt(request.getParameter("wattHeure")));
+		device.setWattHeure(Integer.parseInt(request.getParameter("wattHeure")));
 		manager.persist(device);
 		tx.commit();
 
