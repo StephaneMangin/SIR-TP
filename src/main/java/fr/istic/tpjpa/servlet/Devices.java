@@ -9,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,46 +19,62 @@ import javax.servlet.http.HttpServletResponse;
 import fr.istic.tpjpa.domain.AbstractDevice;
 import fr.istic.tpjpa.domain.ElectronicDevice;
 import fr.istic.tpjpa.domain.Heater;
-import fr.istic.tpjpa.domain.Person;
 
 @WebServlet(name = "devices", urlPatterns = { "/devices" })
 public class Devices extends HttpServlet {
 
-	private EntityManagerFactory factory = Persistence.createEntityManagerFactory("example");
-	private EntityManager manager = factory.createEntityManager();
-	private EntityTransaction tx = manager.getTransaction();
+	private EntityManagerFactory factory = null;
+	private EntityManager manager = null;
+	private EntityTransaction tx = null;
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		if (factory == null || !factory.isOpen()) {
+			factory = Persistence.createEntityManagerFactory("example");
+			manager = factory.createEntityManager();
+			tx = manager.getTransaction();
+		}
+	}
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// Connect to databqse and get all persons informations
-		TypedQuery<Person> q = manager.createQuery(
-				"select distinct p from Person p",
-				Person.class);
-		List<Person> persons = q.getResultList();
 		// Build the response
 		PrintWriter out = new PrintWriter(resp.getOutputStream());
 		out.println("<HTML>\n<BODY>");
-		if (persons.isEmpty()) {
-			out.println("<h1>Nothing to show !</h1>");
-		} else {
+		// Connect to database and get all persons informations
+		TypedQuery<String> types = manager.createQuery(
+				"select distinct a.type from AbstractDevice a",
+				String.class);
+		for (String type: types.getResultList()) {
+			TypedQuery<AbstractDevice> q = manager.createQuery(
+					"select distinct a from AbstractDevice a where a.type=" + type,
+					AbstractDevice.class);
+
+			out.println("<h1>"+ type +"</h1>");
 			out.println("<UL>");
-			for (Person person : persons) {
-				out.println("<LI><H1>"+ person.fullName() +"</H1>");
+			List<AbstractDevice> devices = q.getResultList();
+			if (devices.isEmpty()) {
+				out.println("<h2>Nothing to show !</h2>");
+			} else {
 				out.println("<UL>");
-				out.println("<LI>ID: " + person.getId());
-				out.println("<LI>Email: " + person.getEmail());
-				out.println("<LI>Facebook profile: " + person.getFacebookProfile());
-				out.println("<LI>Gender: " + person.getGender());
-				out.println("<LI>Birthday: " + person.getBirthday());
-				out.println("</UL></LI>");
+				for (AbstractDevice device : devices) {
+					out.println("<LI><H2>"+ device.getName() +"</H2>");
+					out.println("<UL>");
+					out.println("<LI>ID: " + device.getId() + "</LI>");
+					out.println("<LI>Power: " + device.getWattHeure() +" WH</LI>");
+					out.println("</UL></LI>");
+				}
+				out.println("</UL>");
 			}
 			out.println("</UL>");
 		}
+
 		out.println("</BODY>\n</HTML>");
 		out.flush();
 	}

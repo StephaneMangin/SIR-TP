@@ -16,15 +16,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.istic.tpjpa.domain.AbstractDevice;
 import fr.istic.tpjpa.domain.Home;
-import fr.istic.tpjpa.domain.Person;
 
 @WebServlet(name = "homes", urlPatterns = { "/homes" })
 public class Homes extends HttpServlet {
 
-	private EntityManagerFactory factory;
-	private EntityManager manager;
-	private EntityTransaction tx;
+	private EntityManagerFactory factory = null;
+	private EntityManager manager = null;
+	private EntityTransaction tx = null;
+	
 	/**
 	 * 
 	 */
@@ -32,7 +33,7 @@ public class Homes extends HttpServlet {
 
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		if (!factory.isOpen()) {
+		if (factory == null || !factory.isOpen()) {
 			factory = Persistence.createEntityManagerFactory("example");
 			manager = factory.createEntityManager();
 			tx = manager.getTransaction();
@@ -61,6 +62,11 @@ public class Homes extends HttpServlet {
 				out.println("<LI>Size: " + home.getSize());
 				out.println("<LI>Room qty: " + home.getRoomQty());
 				out.println("<LI>IP address: " + home.getIpAddress());
+				out.println("<LI>Devices: ");
+				for (AbstractDevice device: home.getDevices()) {
+					out.print(device.getName() + ", ");
+				}
+				out.println("</LI>");
 				out.println("</UL></LI>");
 			}
 			out.println("</UL>");

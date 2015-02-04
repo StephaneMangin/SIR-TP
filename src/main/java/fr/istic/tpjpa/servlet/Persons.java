@@ -17,14 +17,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.istic.tpjpa.domain.Home;
 import fr.istic.tpjpa.domain.Person;
 
 @WebServlet(name = "persons", urlPatterns = { "/persons" })
 public class Persons extends HttpServlet {
 
-	private EntityManagerFactory factory;
-	private EntityManager manager;
-	private EntityTransaction tx;
+	private EntityManagerFactory factory = null;
+	private EntityManager manager = null;
+	private EntityTransaction tx = null;
+	
 	/**
 	 * 
 	 */
@@ -32,7 +34,7 @@ public class Persons extends HttpServlet {
 	
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		if (!factory.isOpen()) {
+		if (factory == null || !factory.isOpen()) {
 			factory = Persistence.createEntityManagerFactory("example");
 			manager = factory.createEntityManager();
 			tx = manager.getTransaction();
@@ -42,7 +44,7 @@ public class Persons extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// Connect to databqse and get all persons informations
+		// Connect to database and get all persons informations
 		TypedQuery<Person> q = manager.createQuery(
 				"select distinct p from Person p",
 				Person.class);
@@ -57,13 +59,18 @@ public class Persons extends HttpServlet {
 			for (Person person : persons) {
 				out.println("<LI><H1>"+ person.fullName() +"</H1>");
 				out.println("<UL>");
-				out.println("<LI>ID: " + person.getId());
-				out.println("<LI>Email: " + person.getEmail());
-				out.println("<LI>Facebook profile: " + person.getFacebookProfile());
-				out.println("<LI>Gender: " + person.getGender());
-				out.println("<LI>Birthday: " + person.getBirthday().toGMTString());
-				out.println("<LI>Homes: " + person.getHomes().toArray().toString());
-				out.println("</UL></LI>");
+				out.println("<LI>ID: " + person.getId() +"</LI>");
+				out.println("<LI>Email: " + person.getEmail() +"</LI>");
+				out.println("<LI>Facebook profile: " + person.getFacebookProfile() +"</LI>");
+				out.println("<LI>Gender: " + person.getGender() +"</LI>");
+				out.println("<LI>Birthday: " + person.getBirthday() +"</LI>");
+				out.println("<LI>Homes: ");
+				for (Home home: person.getHomes()) {
+					out.print(home.getAddress() + ", ");
+				}
+				out.println("</LI>");
+				out.println("</UL>");
+				out.println("</LI>");
 			}
 			out.println("</UL>");
 		}

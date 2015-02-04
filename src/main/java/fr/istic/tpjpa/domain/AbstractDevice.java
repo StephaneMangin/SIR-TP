@@ -1,5 +1,6 @@
 package fr.istic.tpjpa.domain;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
@@ -18,6 +19,7 @@ public abstract class AbstractDevice {
 	
 	private long id;
 	private String name;
+	private String type;
 	private Home home;
 	private int wattHeure;
 
@@ -35,6 +37,14 @@ public abstract class AbstractDevice {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Column(insertable=false, updatable=false)
+	public String getType() {
+		return type;
+	}
+	public String setType(String type) {
+		return this.type = type;
 	}
 	
     @ManyToOne
