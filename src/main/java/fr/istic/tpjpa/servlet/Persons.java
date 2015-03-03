@@ -46,19 +46,20 @@ public class Persons extends HttpServlet {
 			throws ServletException, IOException {
 		// Connect to database and get all persons informations
 		TypedQuery<Person> q = manager.createQuery(
-				"select distinct p from Person p",
+				"select distinct p from Person p  join fetch p.friends",
 				Person.class);
 		List<Person> persons = q.getResultList();
 		// Build the response
 		PrintWriter out = new PrintWriter(resp.getOutputStream());
 		out.println("<HTML>\n<BODY>");
         out.println("<form><input type=\"button\" value=\"Back\" onClick=\"history.go(-1);return true;\"></form>");
+        out.println("<h1>Persons</h1>");
 		if (persons.isEmpty()) {
-			out.println("<h1>Nothing to show !</h1>");
+			out.println("<h2>Nothing to show !</h2>");
 		} else {
 			out.println("<UL>");
 			for (Person person : persons) {
-				out.println("<LI><H1>"+ person.fullName() +"</H1>");
+				out.println("<LI><H2>"+ person.fullName() +"</H2>");
 				out.println("<UL>");
 				out.println("<LI>ID: " + person.getId() +"</LI>");
 				out.println("<LI>Email: " + person.getEmail() +"</LI>");
@@ -70,6 +71,11 @@ public class Persons extends HttpServlet {
 					out.print(home.getAddress() + ", ");
 				}
 				out.println("</LI>");
+                out.println("<LI>Friends: ");
+                for (Person friend: person.getFriends()) {
+                    out.print(friend.fullName() + ", ");
+                }
+                out.println("</LI>");
 				out.println("</UL>");
 				out.println("</LI>");
 			}

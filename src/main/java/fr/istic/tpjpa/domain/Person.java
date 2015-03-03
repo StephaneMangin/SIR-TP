@@ -102,10 +102,10 @@ public class Person implements Serializable {
 	 * @return
 	 */
 	@ManyToMany
-	  @JoinTable(
+/*	  @JoinTable(
 	      name="person_friends",
 	      joinColumns={@JoinColumn(name="person_id", referencedColumnName="id")},
-	      inverseJoinColumns={@JoinColumn(name="friend_id", referencedColumnName="id")})
+	      inverseJoinColumns={@JoinColumn(name="friend_id", referencedColumnName="id")})*/
 	public List<Person> getFriends() {
 		return friends;
 	}
@@ -120,7 +120,7 @@ public class Person implements Serializable {
 	public void setFriends(List<Person> friends) {
 		List<Person> actual_friends = new ArrayList<Person>();
 		// On commence par supprimer this dans chaque ancien ami.
-		for (Person friend: this.friends) {
+		for (Person friend: friends) {
 			if (!friend.getFriends().contains(this)) {
 				actual_friends.add(friend);
 			}
@@ -136,7 +136,7 @@ public class Person implements Serializable {
 	 * Ajoute un ami et ajout this dans la liste de l'ami
 	 * Attention appel r�cursif, l'invariante d'arr�t est que this n'est pas d�j� dans la liste du nouvel ami
 	 * 
-	 * @param person
+	 * @param friend
 	 */
 	public void addFriend(Person friend) {
 		this.friends.add(friend);

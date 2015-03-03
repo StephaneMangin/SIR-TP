@@ -51,20 +51,24 @@ public class Devices extends HttpServlet {
 		TypedQuery<String> types = manager.createQuery(
 				"select distinct a.type from AbstractDevice a",
 				String.class);
+        out.println("<form><input type=\"button\" value=\"Back\" onClick=\"history.go(-1);return true;\"></form>");
+        out.println("<h1>Devices</h1>");
+        if (types.getResultList().isEmpty()) {
+            out.println("<h2>Nothing to show !</h2>");
+        }
 		for (String type: types.getResultList()) {
 			TypedQuery<AbstractDevice> q = manager.createQuery(
 					"select distinct a from AbstractDevice a where a.type=" + type,
 					AbstractDevice.class);
-            out.println("<form><input type=\"button\" value=\"Back\" onClick=\"history.go(-1);return true;\"></form>");
-			out.println("<h1>"+ type +"</h1>");
+			out.println("<h2>"+ type +"</h2>");
 			out.println("<UL>");
 			List<AbstractDevice> devices = q.getResultList();
 			if (devices.isEmpty()) {
-				out.println("<h2>Nothing to show !</h2>");
+				out.println("<h3>Nothing to show !</h3>");
 			} else {
 				out.println("<UL>");
 				for (AbstractDevice device : devices) {
-					out.println("<LI><H2>"+ device.getName() +"</H2>");
+					out.println("<LI><H3>"+ device.getName() +"</H3>");
 					out.println("<UL>");
 					out.println("<LI>ID: " + device.getId() + "</LI>");
 					out.println("<LI>Power: " + device.getWattHeure() +" WH</LI>");

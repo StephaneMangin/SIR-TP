@@ -52,12 +52,13 @@ public class Homes extends HttpServlet {
 		PrintWriter out = new PrintWriter(resp.getOutputStream());
 		out.println("<HTML>\n<BODY>");
         out.println("<form><input type=\"button\" value=\"Back\" onClick=\"history.go(-1);return true;\"></form>");
+        out.println("<h1>Homes</h1>");
 		if (homes.isEmpty()) {
-			out.println("<h1>Nothing to show !</h1>");
+			out.println("<h2>Nothing to show !</h2>");
 		} else {
 			out.println("<UL>");
 			for (Home home : homes) {
-				out.println("<LI><H1>"+ home.getAddress() +"</H1>");
+				out.println("<LI><H2>"+ home.getAddress() +"</H2>");
 				out.println("<UL>");
 				out.println("<LI>ID: " + home.getId());
 				out.println("<LI>Size: " + home.getSize());
