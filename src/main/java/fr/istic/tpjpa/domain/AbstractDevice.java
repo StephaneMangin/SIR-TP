@@ -10,12 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import java.io.Serializable;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)
 @DiscriminatorValue("AbstractDevice")
-public abstract class AbstractDevice {
+public abstract class AbstractDevice implements Serializable {
 	
 	private long id;
 	private String name;
@@ -53,12 +54,12 @@ public abstract class AbstractDevice {
 	}
     
     /** 
-	 * Modifie le propriétaire
+	 * Modifie le propriï¿½taire
 	 * 
-	 * Process de mise à jour:
-	 * Vérifier que ce n'est pas une suppression de propriétaire
-	 * Vérifie que le propriétaire actuel n'est pas déjà le même que le nouveau
-	 * Faire l'appel récursif sur l'ajout d'un device au propriétaire
+	 * Process de mise ï¿½ jour:
+	 * Vï¿½rifier que ce n'est pas une suppression de propriï¿½taire
+	 * Vï¿½rifie que le propriï¿½taire actuel n'est pas dï¿½jï¿½ le mï¿½me que le nouveau
+	 * Faire l'appel rï¿½cursif sur l'ajout d'un device au propriï¿½taire
 	 * 
 	 * @param person
 	 */

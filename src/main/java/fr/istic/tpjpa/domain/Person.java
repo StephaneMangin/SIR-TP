@@ -1,4 +1,5 @@
 package fr.istic.tpjpa.domain;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,7 +8,7 @@ import javax.persistence.*;
 
 
 @Entity
-public class Person {
+public class Person implements Serializable {
 	
 	private long id;
 	private String name;
@@ -42,12 +43,12 @@ public class Person {
 	}
 	/**
 	 * Remplace la liste de maison
-	 * Attention appel récursif.
+	 * Attention appel rï¿½cursif.
 	 * 
-	 * Process de mise à jour : 
-	 * Pour chaque ancienne maison, désattribuer this uniquement si this est la relation d'origines.
-	 * Remettre à jour les nouvelles maison en attribuant this uniquement si aucune personne n'a déjà été attribué.
-	 * On remplace effectivement la liste de maison par la nouvelle remise à jour le cas échéant (maison déjà attribuée).
+	 * Process de mise ï¿½ jour : 
+	 * Pour chaque ancienne maison, dï¿½sattribuer this uniquement si this est la relation d'origines.
+	 * Remettre ï¿½ jour les nouvelles maison en attribuant this uniquement si aucune personne n'a dï¿½jï¿½ ï¿½tï¿½ attribuï¿½.
+	 * On remplace effectivement la liste de maison par la nouvelle remise ï¿½ jour le cas ï¿½chï¿½ant (maison dï¿½jï¿½ attribuï¿½e).
 	 * 
 	 * @param homes
 	 */
@@ -70,7 +71,7 @@ public class Person {
 	/** 
 	 * Ajouter une maison
 	 * 
-	 * Attention appel récursif, ne pas s'attribuer la maison si déjà attribuer à quelqu'un.
+	 * Attention appel rï¿½cursif, ne pas s'attribuer la maison si dï¿½jï¿½ attribuer ï¿½ quelqu'un.
 	 * 
 	 * 
 	 * @param home
@@ -84,8 +85,8 @@ public class Person {
 	/**
 	 * Supprimer une maison
 	 * 
-	 * Attention appel récursif, ne modifier la relation si this est le propriétaire de la maison
-	 * et que la maison a bien comme propriétaire this.
+	 * Attention appel rï¿½cursif, ne modifier la relation si this est le propriï¿½taire de la maison
+	 * et que la maison a bien comme propriï¿½taire this.
 	 * 
 	 * @param home
 	 */
@@ -110,8 +111,8 @@ public class Person {
 	}
 	
 	/**
-	 * Remplace la liste d'amis et met à jour la liste de chaque ami
-	 * Attention car appel récursif, l'invariante d'arrêt est la présence
+	 * Remplace la liste d'amis et met ï¿½ jour la liste de chaque ami
+	 * Attention car appel rï¿½cursif, l'invariante d'arrï¿½t est la prï¿½sence
 	 * de this dans la liste de l'ami.
 	 * 
 	 * @param friends
@@ -126,14 +127,14 @@ public class Person {
 		}
 		// On attribue la nouvelle liste d'amis
 		this.friends = actual_friends;
-		// On recrée ensuite la relation inverse
+		// On recrï¿½e ensuite la relation inverse
 		for (Person friend: this.friends) {
 			friend.addFriend(this);
 		}
 	}
 	/**
 	 * Ajoute un ami et ajout this dans la liste de l'ami
-	 * Attention appel récursif, l'invariante d'arrêt est que this n'est pas déjà dans la liste du nouvel ami
+	 * Attention appel rï¿½cursif, l'invariante d'arrï¿½t est que this n'est pas dï¿½jï¿½ dans la liste du nouvel ami
 	 * 
 	 * @param person
 	 */
@@ -145,7 +146,7 @@ public class Person {
 	}
 	/**
 	 * Supprime un ami
-	 * Attention car récursif, l'invariante d'arrêt est la présence de this dans la liste d'ami de old_friend
+	 * Attention car rï¿½cursif, l'invariante d'arrï¿½t est la prï¿½sence de this dans la liste d'ami de old_friend
 	 * 
 	 * @param old_friend
 	 */

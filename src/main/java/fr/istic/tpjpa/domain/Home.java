@@ -1,4 +1,5 @@
 package fr.istic.tpjpa.domain;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import javax.persistence.*;
 import org.codehaus.jettison.json.JSONArray;
 
 @Entity
-public class Home extends JSONArray {
+public class Home implements Serializable {
 	
 	private long id;
 	private String address;
@@ -31,7 +32,7 @@ public class Home extends JSONArray {
 	}
 	
 	/**
-	 * Retourne la propriétaire de la maison
+	 * Retourne la propriï¿½taire de la maison
 	 * 
 	 * @return
 	 */
@@ -41,12 +42,12 @@ public class Home extends JSONArray {
 	}
 
 	/** 
-	 * Modifie le propriétaire
+	 * Modifie le propriï¿½taire
 	 * 
-	 * Process de mise à jour:
-	 * Vérifier que ce n'est pas une suppession de propriétaire
-	 * Vérifie que le propriétaire actuel n'est pas déjà le même que le nouveau
-	 * Faire l'appel récursif sur l'ajout d'une maison au propriétaire
+	 * Process de mise ï¿½ jour:
+	 * Vï¿½rifier que ce n'est pas une suppession de propriï¿½taire
+	 * Vï¿½rifie que le propriï¿½taire actuel n'est pas dï¿½jï¿½ le mï¿½me que le nouveau
+	 * Faire l'appel rï¿½cursif sur l'ajout d'une maison au propriï¿½taire
 	 * 
 	 * @param person
 	 */
@@ -94,12 +95,12 @@ public class Home extends JSONArray {
 	
 	/**
 	 * Remplace la liste de devices
-	 * Attention appel récursif.
+	 * Attention appel rï¿½cursif.
 	 * 
-	 * Process de mise à jour : 
-	 * Pour chaque ancienne maison, désattribuer this uniquement si this est la relation d'origines.
-	 * Remettre à jour les nouveaux devices en attribuant this uniquement si aucune maison n'a déjà été attribué.
-	 * On remplace effectivement la liste de devices par la nouvelle remise à jour le cas échéant (device déjà attribuée).
+	 * Process de mise ï¿½ jour : 
+	 * Pour chaque ancienne maison, dï¿½sattribuer this uniquement si this est la relation d'origines.
+	 * Remettre ï¿½ jour les nouveaux devices en attribuant this uniquement si aucune maison n'a dï¿½jï¿½ ï¿½tï¿½ attribuï¿½.
+	 * On remplace effectivement la liste de devices par la nouvelle remise ï¿½ jour le cas ï¿½chï¿½ant (device dï¿½jï¿½ attribuï¿½e).
 	 * 
 	 * @param devices
 	 */
@@ -122,11 +123,11 @@ public class Home extends JSONArray {
 	/** 
 	 * Ajouter un device
 	 * 
-	 * Attention appel récursif.
+	 * Attention appel rï¿½cursif.
 	 * On commence par enlever le device de son ancienne maison potentielle.
 	 * 
 	 * 
-	 * @param heatr
+	 * @param abstractDevice
 	 */
 	public void addDevice(AbstractDevice abstractDevice) {
 		if (abstractDevice.getHome() != null) {
@@ -138,10 +139,10 @@ public class Home extends JSONArray {
 	/**
 	 * Supprimer un device
 	 * 
-	 * Attention appel récursif, ne modifier la relation que si this est le propriétaire du device
-	 * et que le device a bien comme propriétaire this.
+	 * Attention appel rï¿½cursif, ne modifier la relation que si this est le propriï¿½taire du device
+	 * et que le device a bien comme propriï¿½taire this.
 	 * 
-	 * @param home
+	 * @param device
 	 */
 	public void delDevice(AbstractDevice device) {
 		if (device.getHome().equals(this) && this.devices.contains(device)) {

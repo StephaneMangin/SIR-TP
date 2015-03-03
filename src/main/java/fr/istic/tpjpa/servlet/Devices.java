@@ -55,7 +55,7 @@ public class Devices extends HttpServlet {
 			TypedQuery<AbstractDevice> q = manager.createQuery(
 					"select distinct a from AbstractDevice a where a.type=" + type,
 					AbstractDevice.class);
-
+            out.println("<form><input type=\"button\" value=\"Back\" onClick=\"history.go(-1);return true;\"></form>");
 			out.println("<h1>"+ type +"</h1>");
 			out.println("<UL>");
 			List<AbstractDevice> devices = q.getResultList();
@@ -96,7 +96,8 @@ public class Devices extends HttpServlet {
 		tx.commit();
 
 		PrintWriter out = response.getWriter();
-		out.println("Inserted");
+		out.println("<p>Inserted !</p>" +
+                "<form><input type=\"button\" value=\"Back\" onClick=\"history.go(-1);return true;\"></form>");
 		out.flush();
 	}
 }

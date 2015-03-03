@@ -51,6 +51,7 @@ public class Homes extends HttpServlet {
 		// Build the response
 		PrintWriter out = new PrintWriter(resp.getOutputStream());
 		out.println("<HTML>\n<BODY>");
+        out.println("<form><input type=\"button\" value=\"Back\" onClick=\"history.go(-1);return true;\"></form>");
 		if (homes.isEmpty()) {
 			out.println("<h1>Nothing to show !</h1>");
 		} else {
@@ -90,7 +91,9 @@ public class Homes extends HttpServlet {
 		tx.commit();
 
 		PrintWriter out = response.getWriter();
-		out.println("Inserted");
+        out.println("<p>Inserted !</p>" +
+                "<form><input type=\"button\" value=\"Back\" onClick=\"history.go(-1);return true;\"></form>");
 		out.flush();
 	}
+
 }
