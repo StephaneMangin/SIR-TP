@@ -1,8 +1,9 @@
-/bin/
-/target/
-/.idea/
-/.settings/
-/.classpath
-/.project
-/SIR-TP2-TP3.userlibraries
-/tpJpa.?ml
+bin
+target
+.idea
+.settings
+.classpath
+.project
+tpJpa.iml
+tpJpa.eml
+SIR-TP2-TP3.userlibraries
