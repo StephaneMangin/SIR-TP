@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.codehaus.jettison.json.JSONArray;
-
 @Entity
 public class Home implements Serializable {
 	
