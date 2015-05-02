@@ -18,7 +18,7 @@ public class SampleWebService {
     }
 
     @GET
-    @Path("/home")
+    @Path("/home_new")
     @Produces(MediaType.APPLICATION_JSON)
     public Home getHome() {
         Home h = new Home();
