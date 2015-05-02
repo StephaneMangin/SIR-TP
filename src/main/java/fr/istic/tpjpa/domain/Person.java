@@ -4,12 +4,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 
 @Entity
 public class Person implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String name;
 	private String firstname;
@@ -20,9 +29,6 @@ public class Person implements Serializable {
     private List<Home> homes = new ArrayList<Home>();
     private List<Person> friends = new ArrayList<Person>();
     
-    public Person() {
-		super();
-	}
 	@Id
 	@GeneratedValue
 	public long getId() {

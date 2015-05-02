@@ -1,74 +1,91 @@
 package fr.istic.tpjpa.rest;
 
+import java.util.Collection;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
 import fr.istic.tpjpa.domain.Heater;
 
-import javax.persistence.*;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+@Path("/heaters")
 public class HeaterController {
 
-    private List<Heater> heaters = new ArrayList<Heater>();
-    private EntityManagerFactory factory = null;
-    private EntityManager manager = null;
-    private EntityTransaction tx = null;
+	private EntityManagerFactory factory;
+	private EntityManager manager;
+	private EntityTransaction tx;
 
-    public HeaterController() {
-        if (factory == null || !factory.isOpen()) {
-            factory = Persistence.createEntityManagerFactory("heater_controller");
-            manager = factory.createEntityManager();
-            tx = manager.getTransaction();
-        }
-        TypedQuery<Heater> q = manager.createQuery("select distinct h from heater h", Heater.class);
-        heaters = q.getResultList();
-    }
+	public HeaterController() {
+		factory = Persistence.createEntityManagerFactory("example");
+		manager = factory.createEntityManager();
+		tx = manager.getTransaction();
+	}
 
-    @GET @Path("/heaters")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Heater> getAction() {
-        return heaters;
-    }
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Heater> getAction() {
+		TypedQuery<Heater> q = manager.createQuery(
+				"select distinct h from heater h", Heater.class);
+		return q.getResultList();
+	}
 
-    @GET
-    @Path("/heater/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Heater getAction(@PathParam("id") String arg0) {
-        return heaters.get(Integer.parseInt(arg0));
-    }
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Heater getAction(@PathParam("id") String arg0) {
+		TypedQuery<Heater> q = manager.createQuery(
+				"select distinct h from Heater h where id=:id", Heater.class)
+				.setParameter("id", arg0);
+		return q.getSingleResult();
+	}
 
-    @POST @Path("/heater")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Heater postAction(Heater heater) {
-        tx.begin();
-        manager.persist(heater);
-        tx.commit();
-        return heater;
-    }
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Heater postAction(Heater heater) {
+		tx.begin();
+		manager.persist(heater);
+		tx.commit();
+		return heater;
+	}
 
-    @PUT
-    @Path("/heater/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Heater putAction(@PathParam("id") String arg0) {
-        Heater heater = heaters.get(Integer.parseInt(arg0));
-        tx.begin();
-        manager.persist(heater);
-        tx.commit();
-        return heater;
-    }
+	@PUT
+	@Path("/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Heater putAction(@PathParam("id") String arg0) {
+		TypedQuery<Heater> q = manager.createQuery(
+				"select distinct h from Heater h where id=:id", Heater.class)
+				.setParameter("id", arg0);
+		Heater heater = q.getSingleResult();
+		tx.begin();
+		manager.persist(heater);
+		tx.commit();
+		return heater;
+	}
 
-    @DELETE
-    @Path("/home/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public boolean deleteAction(@PathParam("id") String arg0) {
-        Heater heater = heaters.remove(Integer.parseInt(arg0));
-        tx.begin();
-        manager.remove(heater);
-        tx.commit();
-        return true;
-    }
+	@DELETE
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean deleteAction(@PathParam("id") String arg0) {
+		TypedQuery<Heater> q = manager.createQuery(
+				"select distinct h from Heater h where id=:id", Heater.class)
+				.setParameter("id", arg0);
+		Heater heater = q.getSingleResult();
+		tx.begin();
+		manager.remove(heater);
+		tx.commit();
+		return true;
+	}
 }

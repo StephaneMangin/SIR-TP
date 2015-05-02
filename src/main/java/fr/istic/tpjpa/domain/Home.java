@@ -3,13 +3,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
-
-import org.codehaus.jettison.json.JSONArray;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Home implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String address;
 	private int size;
@@ -17,11 +24,7 @@ public class Home implements Serializable {
 	private int roomQty;
 	private Person person;
 	private List<AbstractDevice> devices = new ArrayList<AbstractDevice>();
-	
-    public Home() {
-		super();
-	}
-	
+		
 	@Id
 	@GeneratedValue
 	public long getId() {
