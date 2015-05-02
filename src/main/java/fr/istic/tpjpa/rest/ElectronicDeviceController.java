@@ -36,7 +36,7 @@ public class ElectronicDeviceController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<ElectronicDevice> getAction() {
 		TypedQuery<ElectronicDevice> q = manager.createQuery(
-				"select distinct h from ElectronicDevice h", ElectronicDevice.class);
+				"select distinct e from ElectronicDevice e", ElectronicDevice.class);
 		return q.getResultList();
 	}
 
@@ -45,7 +45,7 @@ public class ElectronicDeviceController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ElectronicDevice getAction(@PathParam("id") String arg0) {
 		TypedQuery<ElectronicDevice> q = manager.createQuery(
-				"select distinct h from ElectronicDevice h where id=:id", ElectronicDevice.class)
+				"select distinct e from ElectronicDevice e where id=:id", ElectronicDevice.class)
 				.setParameter("id", arg0);
 		return q.getSingleResult();
 	}
@@ -66,7 +66,7 @@ public class ElectronicDeviceController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ElectronicDevice putAction(@PathParam("id") String arg0) {
 		TypedQuery<ElectronicDevice> q = manager.createQuery(
-				"select distinct h from ElectronicDevice h where id=:id", ElectronicDevice.class)
+				"select distinct e from ElectronicDevice e where id=:id", ElectronicDevice.class)
 				.setParameter("id", arg0);
 		ElectronicDevice electronicDevice = q.getSingleResult();
 		tx.begin();
@@ -80,7 +80,7 @@ public class ElectronicDeviceController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean deleteAction(@PathParam("id") String arg0) {
 		TypedQuery<ElectronicDevice> q = manager.createQuery(
-				"select distinct h from ElectronicDevice h where id=:id", ElectronicDevice.class)
+				"select distinct e from ElectronicDevice e where id=:id", ElectronicDevice.class)
 				.setParameter("id", arg0);
 		ElectronicDevice electronicDevice = q.getSingleResult();
 		tx.begin();
