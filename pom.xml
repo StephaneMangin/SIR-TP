@@ -40,7 +40,14 @@
 	</dependencies>
 	<build>
         <plugins>
-            <!-- * Start of user code for plugins -->
+			<!-- * Start of user code for plugins -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
