@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Path("/rest")
 public class HeaterController {
 
     private List<Heater> heaters = new ArrayList<Heater>();

@@ -8,7 +8,6 @@ import javax.ws.rs.core.MediaType;
 import fr.istic.tpjpa.domain.Heater;
 import fr.istic.tpjpa.domain.Home;
 
-@Path("/rest")
 public class SampleWebService {
 	
     @GET

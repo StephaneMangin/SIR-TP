@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Path("/rest")
 public class HomeController {
 
     private List<Home> homes = new ArrayList<Home>();
