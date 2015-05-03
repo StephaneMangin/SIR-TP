@@ -44,10 +44,10 @@ public class HomeController {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Home getAction(@PathParam("id") Long arg0) {
+	public Home getAction(@PathParam("id") Long id) {
 		TypedQuery<Home> q = manager.createQuery(
 				"select distinct h from Home h where id=:id", Home.class)
-				.setParameter("id", arg0);
+				.setParameter("id", id);
 		return q.getSingleResult();
 	}
 
@@ -62,16 +62,11 @@ public class HomeController {
 	}
 
 	@PUT
-	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Home putAction(@PathParam("id") String arg0) {
-		TypedQuery<Home> q = manager.createQuery(
-				"select distinct h from Home h where id=:id", Home.class)
-				.setParameter("id", arg0);
-		Home home = q.getSingleResult();
+	public Home putAction(Home home) {
 		tx.begin();
-		manager.persist(home);
+		manager.merge(home);
 		tx.commit();
 		return home;
 	}
@@ -79,13 +74,13 @@ public class HomeController {
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean deleteAction(@PathParam("id") String arg0) {
+	public boolean deleteAction(@PathParam("id") Long id) {
 		TypedQuery<Home> q = manager.createQuery(
 				"select distinct h from Home h where id=:id", Home.class)
-				.setParameter("id", arg0);
+				.setParameter("id", id);
 		Home home = q.getSingleResult();
 		tx.begin();
-		manager.remove(home);
+		manager.remove(manager.merge(home));
 		tx.commit();
 		return true;
 	}

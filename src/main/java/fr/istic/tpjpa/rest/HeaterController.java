@@ -43,10 +43,10 @@ public class HeaterController {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Heater getAction(@PathParam("id") String arg0) {
+	public Heater getAction(@PathParam("id") Long id) {
 		TypedQuery<Heater> q = manager.createQuery(
 				"select distinct h from Heater h where id=:id", Heater.class)
-				.setParameter("id", arg0);
+				.setParameter("id", id);
 		return q.getSingleResult();
 	}
 
@@ -61,14 +61,9 @@ public class HeaterController {
 	}
 
 	@PUT
-	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Heater putAction(@PathParam("id") String arg0) {
-		TypedQuery<Heater> q = manager.createQuery(
-				"select distinct h from Heater h where id=:id", Heater.class)
-				.setParameter("id", arg0);
-		Heater heater = q.getSingleResult();
+	public Heater putAction(Heater heater) {
 		tx.begin();
 		manager.persist(heater);
 		tx.commit();
@@ -78,13 +73,13 @@ public class HeaterController {
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean deleteAction(@PathParam("id") String arg0) {
+	public boolean deleteAction(@PathParam("id") Long id) {
 		TypedQuery<Heater> q = manager.createQuery(
 				"select distinct h from Heater h where id=:id", Heater.class)
-				.setParameter("id", arg0);
+				.setParameter("id", id);
 		Heater heater = q.getSingleResult();
 		tx.begin();
-		manager.remove(heater);
+		manager.remove(manager.merge(heater));
 		tx.commit();
 		return true;
 	}

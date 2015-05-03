@@ -43,10 +43,10 @@ public class ElectronicDeviceController {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ElectronicDevice getAction(@PathParam("id") String arg0) {
+	public ElectronicDevice getAction(@PathParam("id") Long id) {
 		TypedQuery<ElectronicDevice> q = manager.createQuery(
 				"select distinct e from ElectronicDevice e where id=:id", ElectronicDevice.class)
-				.setParameter("id", arg0);
+				.setParameter("id", id);
 		return q.getSingleResult();
 	}
 
@@ -61,14 +61,9 @@ public class ElectronicDeviceController {
 	}
 
 	@PUT
-	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ElectronicDevice putAction(@PathParam("id") String arg0) {
-		TypedQuery<ElectronicDevice> q = manager.createQuery(
-				"select distinct e from ElectronicDevice e where id=:id", ElectronicDevice.class)
-				.setParameter("id", arg0);
-		ElectronicDevice electronicDevice = q.getSingleResult();
+	public ElectronicDevice putAction(ElectronicDevice electronicDevice) {
 		tx.begin();
 		manager.persist(electronicDevice);
 		tx.commit();
@@ -78,13 +73,13 @@ public class ElectronicDeviceController {
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean deleteAction(@PathParam("id") String arg0) {
+	public boolean deleteAction(@PathParam("id") Long id) {
 		TypedQuery<ElectronicDevice> q = manager.createQuery(
 				"select distinct e from ElectronicDevice e where id=:id", ElectronicDevice.class)
-				.setParameter("id", arg0);
+				.setParameter("id", id);
 		ElectronicDevice electronicDevice = q.getSingleResult();
 		tx.begin();
-		manager.remove(electronicDevice);
+		manager.remove(manager.merge(electronicDevice));
 		tx.commit();
 		return true;
 	}

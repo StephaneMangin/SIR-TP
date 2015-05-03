@@ -1,15 +1,13 @@
 package fr.istic.tpjpa.domain;
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 
 @Entity
@@ -43,7 +41,8 @@ public class Person implements Serializable {
 	 * 
 	 * @return
 	 */
-	@OneToMany(cascade=CascadeType.PERSIST, mappedBy="person")
+	@JsonManagedReference("person-home")
+	@OneToMany(cascade=CascadeType.DETACH, mappedBy="person")
 	public List<Home> getHomes() {
 		return homes;
 	}
@@ -107,11 +106,11 @@ public class Person implements Serializable {
 	 * 
 	 * @return
 	 */
-	@ManyToMany
-/*	  @JoinTable(
-	      name="person_friends",
-	      joinColumns={@JoinColumn(name="person_id", referencedColumnName="id")},
-	      inverseJoinColumns={@JoinColumn(name="friend_id", referencedColumnName="id")})*/
+	@ManyToMany(cascade = CascadeType.DETACH)
+	@JoinTable(
+	  name="person_friends",
+	  joinColumns={@JoinColumn(name="person_id", referencedColumnName="id")},
+	  inverseJoinColumns={@JoinColumn(name="friend_id", referencedColumnName="id")})
 	public List<Person> getFriends() {
 		return friends;
 	}

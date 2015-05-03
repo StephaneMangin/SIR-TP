@@ -1,5 +1,7 @@
 package fr.istic.tpjpa.domain;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -50,7 +52,7 @@ public abstract class AbstractDevice implements Serializable {
 	public String setType(String type) {
 		return this.type = type;
 	}
-	
+
     @ManyToOne
     public Home getHome() {
 		return home;
@@ -64,7 +66,7 @@ public abstract class AbstractDevice implements Serializable {
 	 * V�rifie que le propri�taire actuel n'est pas d�j� le m�me que le nouveau
 	 * Faire l'appel r�cursif sur l'ajout d'un device au propri�taire
 	 * 
-	 * @param person
+	 * @param home
 	 */
 	public void setHome(Home home) {
 		if (home != null && home != this.home) {

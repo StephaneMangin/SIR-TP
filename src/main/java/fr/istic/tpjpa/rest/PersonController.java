@@ -32,10 +32,10 @@ public class PersonController {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Person getAction(@PathParam("id") Long arg0) {
+	public Person getAction(@PathParam("id") Long id) {
 		TypedQuery<Person> q = manager.createQuery(
 				"select distinct p from Person p where id=:id", Person.class)
-				.setParameter("id", arg0);
+				.setParameter("id", id);
 		return q.getSingleResult();
 	}
 
@@ -50,16 +50,11 @@ public class PersonController {
 	}
 
 	@PUT
-	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Person putAction(@PathParam("id") String arg0) {
-		TypedQuery<Person> q = manager.createQuery(
-				"select distinct p from Person p where id=:id", Person.class)
-				.setParameter("id", arg0);
-		Person person = q.getSingleResult();
+	public Person putAction(Person person) {
 		tx.begin();
-		manager.persist(person);
+		manager.merge(person);
 		tx.commit();
 		return person;
 	}
@@ -67,13 +62,13 @@ public class PersonController {
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean deleteAction(@PathParam("id") String arg0) {
+	public boolean deleteAction(@PathParam("id") Long id) {
 		TypedQuery<Person> q = manager.createQuery(
 				"select distinct p from Person p where id=:id", Person.class)
-				.setParameter("id", arg0);
+				.setParameter("id", id);
 		Person person = q.getSingleResult();
 		tx.begin();
-		manager.remove(person);
+		manager.remove(manager.merge(person));
 		tx.commit();
 		return true;
 	}

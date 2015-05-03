@@ -1,4 +1,7 @@
 package fr.istic.tpjpa.domain;
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +42,7 @@ public class Home implements Serializable {
 	 * 
 	 * @return
 	 */
+	@JsonBackReference("person-home")
 	@ManyToOne
 	public Person getPerson() {
 		return person;
@@ -91,7 +95,7 @@ public class Home implements Serializable {
 	 * 
 	 * @return
 	 */
-	@OneToMany(cascade=CascadeType.REMOVE, mappedBy="home")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="home")
 	public List<AbstractDevice> getDevices() {
 		return devices;
 	}
