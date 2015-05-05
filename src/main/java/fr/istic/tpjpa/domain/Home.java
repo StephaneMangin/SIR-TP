@@ -57,6 +57,58 @@ public class Home implements Serializable {
 		}
 	}
 
+	/**
+	 * Retourn la liste des devices
+	 *
+	 * @return
+	 */
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(
+			name="home_device",
+			joinColumns={@JoinColumn(name="home_id", referencedColumnName="id")},
+			inverseJoinColumns={@JoinColumn(name="device_id", referencedColumnName="id")})
+	public List<AbstractDevice> getDevices() {
+		return devices;
+	}
+
+	/**
+	 * Remplace la liste de devices
+	 *
+	 * @param devices
+	 */
+	public void setDevices(List<AbstractDevice> devices) {
+		for (AbstractDevice a: this.devices) {
+			a.delHome(this);
+		}
+		this.devices.clear();
+		for (AbstractDevice a: devices) {
+			a.addHome(this);
+		}
+		this.devices = devices;
+	}
+	/**
+	 * Ajouter un device
+	 *
+	 * @param device
+	 */
+	public void addDevice(AbstractDevice device) {
+		this.devices.add(device);
+		if (!device.getHomes().contains(this)) {
+			device.addHome(this);
+		}
+	}
+	/**
+	 * Supprimer un device
+	 *
+	 * @param device
+	 */
+	public void delDevice(AbstractDevice device) {
+		this.devices.remove(device);
+		if (device.getHomes().contains(this)) {
+			device.delHome(this);
+		}
+	}
+
 	public String getAddress() {
 		return address;
 	}
@@ -80,46 +132,6 @@ public class Home implements Serializable {
 	}
 	public void setRoomQty(int roomQty) {
 		this.roomQty = roomQty;
-	}
-
-	/**
-	 * Retourn la liste des devices
-	 *
-	 * @return
-	 */
-	@ManyToMany(cascade=CascadeType.PERSIST)
-	@JoinTable(
-			name="home_device",
-			joinColumns={@JoinColumn(name="home_id", referencedColumnName="id")},
-			inverseJoinColumns={@JoinColumn(name="device_id", referencedColumnName="id")})
-	public List<AbstractDevice> getDevices() {
-		return devices;
-	}
-
-	/**
-	 * Remplace la liste de devices
-	 *
-	 * @param devices
-	 */
-	public void setDevices(List<AbstractDevice> devices) {
-		this.devices.clear();
-		this.devices = devices;
-	}
-	/**
-	 * Ajouter un device
-	 *
-	 * @param device
-	 */
-	public void addDevice(AbstractDevice device) {
-		this.devices.add(device);
-	}
-	/**
-	 * Supprimer un device
-	 *
-	 * @param device
-	 */
-	public void delDevice(AbstractDevice device) {
-		this.devices.remove(device);
 	}
 
 }
