@@ -73,13 +73,7 @@ public abstract class AbstractDevice implements Serializable {
 	 * @param homes
 	 */
 	public void setHomes(List<Home> homes) {
-		for (Home h: this.homes) {
-			h.delDevice(this);
-		}
 		this.homes.clear();
-		for (Home h: homes) {
-			h.addDevice(this);
-		}
 		this.homes = homes;
 	}
 	/**

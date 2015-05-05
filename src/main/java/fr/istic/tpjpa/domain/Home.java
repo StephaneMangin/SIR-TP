@@ -81,13 +81,7 @@ public class Home implements Serializable {
 	 * @param devices
 	 */
 	public void setDevices(List<AbstractDevice> devices) {
-		for (AbstractDevice a: this.devices) {
-			a.delHome(this);
-		}
 		this.devices.clear();
-		for (AbstractDevice a: devices) {
-			a.addHome(this);
-		}
 		this.devices = devices;
 	}
 	/**
