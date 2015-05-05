@@ -1,4 +1,5 @@
 package fr.istic.tpjpa.domain;
+
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
