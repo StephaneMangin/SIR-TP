@@ -18,12 +18,8 @@
                     }, {
                         total: $scope.persons.length, // length of data
                         getData: function ($defer, params) {
-                            var orderedData = params.filter() ? $filter('filter')($scope.persons, params.filter()) : $scope.persons;
-                            orderedData = params.sorting() ? $filter('orderBy')(orderedData, params.orderBy()) : orderedData;
-                            $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-
-                            params.total(orderedData.length);
-                            $defer.resolve(orderedData);
+                            params.total($scope.persons.length);
+                            $defer.resolve($scope.persons);
                         }
                     });
                 });
@@ -35,12 +31,9 @@
                     },{
                         total: $scope.homes.length, // length of data
                         getData: function ($defer, params) {
-                            var orderedData = params.filter() ? $filter('filter')($scope.homes, params.filter()) : $scope.homes;
-                            orderedData = params.sorting() ? $filter('orderBy')(orderedData, params.orderBy()) : orderedData;
-                            $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
 
-                            params.total(orderedData.length);
-                            $defer.resolve(orderedData);
+                            params.total($scope.homes.length);
+                            $defer.resolve($scope.homes);
                         }
                     });
                 });

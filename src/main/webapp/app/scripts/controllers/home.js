@@ -79,25 +79,6 @@
         });
       };
 
-      $scope.deleteHomes = function() {
-          angular.forEach($scope.checkboxes.items, function(value, key) {
-              var checked = 0;
-              angular.forEach($rootScope.homes, function(item) {
-                  checked   +=  ($scope.checkboxes.items[item.id]) || 0;
-              });
-              $scope.current = 0;
-              Home.get({homeId: key}, function (response) {
-                  $scope.current = $scope.current + 1;
-                  console.log(response);
-                  response.$delete({homeId: key});
-                  if($scope.current == checked) {
-                      growl.success("Homes deleted.");
-                      $route.reload();
-                  }
-              });
-          });
-      };
-
       $scope.addHome = function () {
           ngDialog.open({
               template: 'app/views/homeAdd.html',

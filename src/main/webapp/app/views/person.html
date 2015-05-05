@@ -48,10 +48,10 @@
         </caption>
 				<tr ng-repeat="home in $data">
 					<td data-title="'Address'" sortable="'label'"><a
-						ng-href="#/parc/{{ parc.id }}">{{ home.address }}</a></td>
+						ng-href="#/homes/{{ home.id }}">{{ home.address }}</a></td>
 					<td data-title="'Actions'"><button
 							ng-really-message="Delete ?"
-							ng-really-click="delete({{$index}})" type="button"
+							ng-really-click="deleteHome({{$index}})" type="button"
 							class="btn btn-link btn-xs btn-remove">
 							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 						</button></td>
@@ -72,7 +72,7 @@
           <td data-title="'Email'" sortable="'email'" filter="{ 'email': 'text' }" style="text-align: center">{{ person.email }}</td>
           <td data-title="'Actions'"><button
           ng-really-message="Delete ?"
-          ng-really-click="delete({{$index}})" type="button"
+          ng-really-click="deleteFriend({{$index}})" type="button"
           class="btn btn-link btn-xs btn-remove">
           <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </button></td>

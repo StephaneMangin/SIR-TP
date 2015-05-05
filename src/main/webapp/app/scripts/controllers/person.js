@@ -23,11 +23,8 @@
               counts: [], // hide page counts control
                 total: 1,  // value less than count hide pagination
                 getData: function ($defer, params) {
-                    var orderedData = params.filter() ? $filter('filter')($scope.person.homes, params.filter()) : $scope.person.homes;
-                    orderedData = params.sorting() ? $filter('orderBy')(orderedData, params.orderBy()) : orderedData;
-                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
 
-                    params.total(orderedData.length);
+                    params.total($scope.person.homes.length);
                     $defer.resolve($scope.person.homes);
                 }
             });
@@ -43,11 +40,7 @@
               }, {
                   total: $scope.persons.length, // length of data
                   getData: function ($defer, params) {
-                      var orderedData = params.filter() ? $filter('filter')($scope.persons, params.filter()) : $scope.persons;
-                      orderedData = params.sorting() ? $filter('orderBy')(orderedData, $scope.tableParams.orderBy()) : orderedData;
-                      $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-
-                      params.total(orderedData.length);
+                      params.total($scope.persons.length);
                       $defer.resolve($scope.persons);
                   }
               });
@@ -61,25 +54,6 @@
                 $location.path('/persons');
             });
         });
-      };
-
-      $scope.deletePersons = function() {
-          angular.forEach($scope.checkboxes.items, function(value, key) {
-              var checked = 0;
-              angular.forEach($rootScope.persons, function(item) {
-                  checked   +=  ($scope.checkboxes.items[item.id]) || 0;
-              });
-              $scope.current = 0;
-              Person.get({personId: key}, function (response) {
-                  $scope.current = $scope.current + 1;
-                  console.log(response);
-                  response.$delete({personId: key});
-                  if($scope.current == checked) {
-                      growl.success("Persons deleted.");
-                      $route.reload();
-                  }
-              });
-          });
       };
 
       $scope.addPerson = function () {
