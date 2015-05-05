@@ -43,32 +43,15 @@ public class Person implements Serializable {
 	public List<Home> getHomes() {
 		return homes;
 	}
+
 	/**
 	 * Remplace la liste de maison
-	 * Attention appel r�cursif.
-	 *
-	 * Process de mise � jour :
-	 * Pour chaque ancienne maison, d�sattribuer this uniquement si this est la relation d'origines.
-	 * Remettre � jour les nouvelles maison en attribuant this uniquement si aucune personne n'a d�j� �t� attribu�.
-	 * On remplace effectivement la liste de maison par la nouvelle remise � jour le cas �ch�ant (maison d�j� attribu�e).
 	 *
 	 * @param homes
 	 */
 	public void setHomes(List<Home> homes) {
-		for (Home home: this.homes) {
-			if (home.getPerson().equals(this)) {
-				home.setPerson(null);
-			}
-		}
 		this.homes.clear();
-		List<Home> actual_homes = new ArrayList<Home>();
-		for (Home home: homes) {
-			if (home.getPerson() == null) {
-				home.setPerson(this);
-				actual_homes.add(home);
-			}
-		}
-		this.homes = actual_homes;
+		this.homes = homes;
 
 	}
 	/**
@@ -80,10 +63,8 @@ public class Person implements Serializable {
 	 * @param home
 	 */
 	public void addHome(Home home) {
-		if (home.getPerson() != null && home.getPerson().equals(this)) {
-			this.homes.add(home);
-			home.setPerson(this);
-		}
+		this.homes.add(home);
+		home.setPerson(this);
 	}
 	/**
 	 * Supprimer une maison
@@ -114,27 +95,13 @@ public class Person implements Serializable {
 	}
 
 	/**
-	 * Remplace la liste d'amis et met � jour la liste de chaque ami
-	 * Attention car appel r�cursif, l'invariante d'arr�t est la pr�sence
-	 * de this dans la liste de l'ami.
+	 * Remplace la liste d'amis
 	 *
 	 * @param friends
 	 */
 	public void setFriends(List<Person> friends) {
 		this.friends.clear();
-		List<Person> actual_friends = new ArrayList<Person>();
-		// On commence par supprimer this dans chaque ancien ami.
-		for (Person friend: friends) {
-			if (!friend.getFriends().contains(this)) {
-				actual_friends.add(friend);
-			}
-		}
-		// On attribue la nouvelle liste d'amis
-		this.friends = actual_friends;
-		// On recr�e ensuite la relation inverse
-		for (Person friend: this.friends) {
-			friend.addFriend(this);
-		}
+		this.friends = friends;
 	}
 	/**
 	 * Ajoute un ami et ajout this dans la liste de l'ami
