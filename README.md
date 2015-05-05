@@ -4,12 +4,6 @@
 
 Cette branche est le tronc commun de toutes les intégrations.
 
-### Récupération de la branche :
-  
-    $ git branch Jpa
-    $ git checkout Jpa
-    $ git pull origin Jpa
-
 ## Branche Servlet
 
 ### Récupération de la branche :
