@@ -57,37 +57,12 @@ public class Home implements Serializable {
 		}
 	}
 
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public int getSize() {
-		return size;
-	}
-	public void setSize(int size) {
-		this.size = size;
-	}
-	public String getIpAddress() {
-		return ipAddress;
-	}
-	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
-	}
-	public int getRoomQty() {
-		return roomQty;
-	}
-	public void setRoomQty(int roomQty) {
-		this.roomQty = roomQty;
-	}
-
 	/**
 	 * Retourn la liste des devices
 	 *
 	 * @return
 	 */
-	@ManyToMany(cascade=CascadeType.PERSIST)
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
 			name="home_device",
 			joinColumns={@JoinColumn(name="home_id", referencedColumnName="id")},
@@ -112,6 +87,9 @@ public class Home implements Serializable {
 	 */
 	public void addDevice(AbstractDevice device) {
 		this.devices.add(device);
+		if (!device.getHomes().contains(this)) {
+			device.addHome(this);
+		}
 	}
 	/**
 	 * Supprimer un device
@@ -120,6 +98,34 @@ public class Home implements Serializable {
 	 */
 	public void delDevice(AbstractDevice device) {
 		this.devices.remove(device);
+		if (device.getHomes().contains(this)) {
+			device.delHome(this);
+		}
+	}
+
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public int getSize() {
+		return size;
+	}
+	public void setSize(int size) {
+		this.size = size;
+	}
+	public String getIpAddress() {
+		return ipAddress;
+	}
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+	public int getRoomQty() {
+		return roomQty;
+	}
+	public void setRoomQty(int roomQty) {
+		this.roomQty = roomQty;
 	}
 
 }
