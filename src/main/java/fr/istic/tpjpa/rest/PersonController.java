@@ -15,10 +15,9 @@ public class PersonController {
 	private EntityTransaction tx;
 
 	public PersonController() {
-			factory = Persistence.createEntityManagerFactory("example");
-			manager = factory.createEntityManager();
-			tx = manager.getTransaction();
-		
+		factory = Persistence.createEntityManagerFactory("example");
+		manager = factory.createEntityManager();
+		tx = manager.getTransaction();
 	}
 
 	@GET
@@ -33,10 +32,7 @@ public class PersonController {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Person getAction(@PathParam("id") Long id) {
-		TypedQuery<Person> q = manager.createQuery(
-				"select distinct p from Person p where id=:id", Person.class)
-				.setParameter("id", id);
-		return q.getSingleResult();
+		return manager.find(Person.class, id);
 	}
 
 	@POST
@@ -63,12 +59,9 @@ public class PersonController {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean deleteAction(@PathParam("id") Long id) {
-		TypedQuery<Person> q = manager.createQuery(
-				"select distinct p from Person p where id=:id", Person.class)
-				.setParameter("id", id);
-		Person person = q.getSingleResult();
+		Person person = manager.find(Person.class, id);
 		tx.begin();
-		manager.remove(manager.merge(person));
+		manager.remove(person);
 		tx.commit();
 		return true;
 	}

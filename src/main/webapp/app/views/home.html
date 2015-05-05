@@ -1,0 +1,91 @@
+<div id="dialog-home"></div>
+<div class="growl" growl></div>
+<div class="home vue" data-ng-init="getHome()">
+	<div class="row top-bar">
+		<div class="col-md-6">
+			<h2 class="title">Home n°{{ home.id }}</h2>
+		</div>
+		<div class="col-md-6 btn-top">
+			<div class="btn-group pull-right">
+				<button ng-click="updateHome()" class="btn btn-warning"
+					type="button" title="Modifier le home">
+					<span class="glyphicon glyphicon-edit"></span>
+				</button>
+				<button
+					ng-really-message="Delete ?"
+					ng-really-click="delete(home.id)" class="btn btn-danger"
+					type="button" title="Delete home">
+					<span class="glyphicon glyphicon-trash"></span>
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<dl class="dl-horizontal">
+        <dt>Address</dt>
+        <dd>{{ home.address }}</dd>
+        <dt>Size</dt>
+        <dd>{{ home.size }}</dd>
+        <dt>Room qty</dt>
+        <dd>{{ home.roomQty }}</dd>
+			</dl>
+		</div>
+		<div class="col-md-6">
+			<dl class="dl-horizontal">
+        <dt>Ip address</dt>
+        <dd>{{ home.ipAddress }}</dd>
+        <dt>Owner</dt>
+        <dd><a ng-href="#/persons/{{ home.person.id }}">{{ home.person.firstname }}{{ home.person.name }}</a></dd>
+			</dl>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col-md-12">
+			<table ng-table="tableHomeHeaters"
+				class="table table-bordered table-hover">
+				<caption>
+          <span class="fa fa-home fa-lg"> Heaters</span>
+          <a ng-really-click="addHeater()" class="btn btn-success" role="button" data-toggle="tooltip" data-placement="bottom" title="Add a heater">
+            <span class="glyphicon glyphicon-plus"></span>
+          </a>
+        </caption>
+				<tr ng-repeat="heater in $data">
+					<td data-title="'Address'" sortable="'label'"><a
+						ng-href="#/parc/{{ parc.id }}">{{ home.address }}</a></td>
+					<td data-title="'Actions'"><button
+							ng-really-message="Delete ?"
+							ng-really-click="delete({{$index}})" type="button"
+							class="btn btn-link btn-xs btn-remove">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button></td>
+				</tr>
+			</table>
+		</div>
+
+    <div class="col-md-12">
+      <table ng-table="tableHomeDevices"
+             class="table table-bordered table-hover">
+        <caption>
+          <span class="fa fa-user fa-lg"> Electronic devices</span></a>
+          <a ng-really-click="addDevice()" class="btn btn-success" role="button" data-toggle="tooltip" data-placement="bottom" title="Add an electronic device">
+            <span class="glyphicon glyphicon-plus"></span>
+          </a>
+        </caption>
+        <tr ng-repeat="device in $data">
+          <td data-title="'Name'" sortable="'name'" filter="{ 'name': 'text' }" style="text-align: center"><a
+            ng-href="#/homes/{{ home.id }}">{{ home.firstname }} {{ home.name }}</a></td>
+          <td data-title="'Gender'" sortable="'gender'" filter="{ 'gender': 'text' }"  style="text-align: center">{{ home.gender }}</td>
+          <td data-title="'Email'" sortable="'email'" filter="{ 'email': 'text' }" style="text-align: center">{{ home.email }}</td>
+          <td data-title="'Actions'"><button
+          ng-really-message="Delete ?"
+          ng-really-click="delete({{$index}})" type="button"
+          class="btn btn-link btn-xs btn-remove">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button></td>
+        </tr>
+      </table>
+    </div>
+	</div>
+</div>

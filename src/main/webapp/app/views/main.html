@@ -1,0 +1,42 @@
+<div class="vue" ng-controller="MainCtrl as mainCtrl" data-ng-init="initHomepage()">
+  <div class="row top-bar">
+    <div class="col-md-12">
+      <h2 class="title">Homepage</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table ng-table="tablePersons" template-pagination="custom/pager" show-filter="false" class="table table-bordered table-hover">
+        <caption><span class="fa fa-user fa-lg"></span> Persons</caption>
+        <tr ng-repeat="person in $data">
+          <td data-title="'Nom'" sortable="'firstname'" filter="{ 'number': 'text' }" style="text-align: center"><a
+            ng-href="#/persons/{{ person.id }}">{{ person.firstname }} {{ person.name }}</a></td>
+          <td data-title="'Sexe'" sortable="'stage'" style="text-align: center">{{ person.gender }}</td>
+          <td data-title="'Email'" sortable="'stage'" style="text-align: center">{{ person.email }}</td>
+          <td data-title="'Actions'">
+            <div class="btn-group" role="group">
+              <button ng-really-message="Confirmer la suppression"
+                      ng-really-click="delete(person.id)" type="button"
+                      class="btn btn-link btn-xs btn-remove">
+                <span class="glyphicon glyphicon-trash" style="color: red;" aria-hidden="true"></span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-md-12" >
+      <table ng-table="tableHomes" template-pagination="custom/pager" show-filter="false" class="table table-bordered table-hover">
+        <caption><span class="fa fa-home fa-lg"></span> Homes</caption>
+        <tr ng-repeat="home in $data">
+          <td data-title="'Libellé'" sortable="'label'" filter="{ 'label': 'text' }"><a ng-href="#/home/{{ home.id }}">{{ home.label }}</a></td>
+          <td data-title="'Contrat'" sortable="'contract.number'" filter="{ 'contract.number': 'text'}"><a ng-href="#/contrat/{{ home.contract.id }}">{{ home.contract.number }}</a></td>
+          <td data-title="'Modifié par'" sortable="'last_maj_user'"><a ng-href="#user/{{ home.last_maj_user.id }}">{{ home.last_maj_user.username }}</a></td>
+          <td data-title="'Date de mise à jour'" sortable="'last_maj_date'"><span ng-bind="home.last_maj_date | date: 'EEEE d MMMM y à HH:mm' : locale"></span></td>
+        </tr>
+      </table>
+    </div>
+
+    <script type="text/ng-template" id="custom/pager"></script>
+  </div>
+</div>

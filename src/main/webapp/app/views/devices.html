@@ -1,0 +1,59 @@
+<div class="growl" growl></div>
+<div id="dialog-device" class="vue" data-ng-init="getDevices()">
+	<div class="row top-bar">
+		<div class="col-md-6 col-md-offset-3">
+			<h2 class="title">Devices list</h2>
+		</div>
+        <div class="col-md-3 btn-top">
+            <div class="btn-group pull-right">
+                <a ng-click="addDevice()" class="btn btn-success" role="button" data-toggle="tooltip" data-placement="bottom" title="Add an device">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </a>
+            </div>
+        </div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<table ng-table="tableParams" show-filter="true" template-pagination="custom/pager" class="table table-bordered table-hover">
+			    <tbody>
+            <tr ng-repeat="device in $data">
+              <td data-title="'Id'" style="text-align: center"><a
+                ng-href="#/devices/{{ device.id }}"><span class="">{{ device.id }}</span></a></td>
+              <td data-title="'Name'" sortable="'name'" filter="{ 'name': 'text' }" style="text-align: center"><a
+                ng-href="#/devices/{{ device.id }}">{{ device.name }}</a></td>
+              <td data-title="'Type'" sortable="'type'" filter="{ 'type': 'text' }"  style="text-align: center">{{ device.type }}</td>
+              <td data-title="'Power'" sortable="'power'" filter="{ 'power': 'text' }" style="text-align: center">{{ device.wattHeure }}</td>
+              <td data-title="'Actions'">
+                <div class="btn-group" role="group">
+                  <button ng-really-message="Confirmer la suppression"
+                          ng-really-click="delete(device.id)" type="button"
+                          class="btn btn-link btn-xs btn-remove">
+                    <span class="glyphicon glyphicon-trash" style="color: red;" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+			    </tbody>
+		    </table>
+		</div>
+	</div>
+</div>
+<script type="text/ng-template" id="custom/pager">
+	<ul class="pager ng-cloak">
+		<li ng-repeat="page in pages" ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}" ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+			<a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo; Previous</a>
+			<a ng-switch-when="next" ng-click="params.page(page.number)" href="">Next &raquo;</a>
+		</li>
+		<li>
+			<div class="btn-group">
+				<button type="button" ng-class="{'active':params.count() == 10}" ng-click="params.count(10)" class="btn btn-default">10</button>
+				<button type="button" ng-class="{'active':params.count() == 25}" ng-click="params.count(25)" class="btn btn-default">25</button>
+				<button type="button" ng-class="{'active':params.count() == 50}" ng-click="params.count(50)" class="btn btn-default">50</button>
+				<button type="button" ng-class="{'active':params.count() == 100}" ng-click="params.count(100)" class="btn btn-default">100</button>
+			</div>
+		</li>
+	</ul>
+</script>
+<script type="text/ng-template" id="ng-table/headers/checkbox.html">
+        <input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
+    </script>

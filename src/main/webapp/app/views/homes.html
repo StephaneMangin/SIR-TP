@@ -1,0 +1,61 @@
+<div class="growl" growl></div>
+<div id="dialog-home" class="vue" data-ng-init="getHomes()">
+	<div class="row top-bar">
+		<div class="col-md-6 col-md-offset-3">
+			<h2 class="title">Homes list</h2>
+		</div>
+        <div class="col-md-3 btn-top">
+            <div class="btn-group pull-right">
+                <a ng-click="addHome()" class="btn btn-success" role="button" data-toggle="tooltip" data-placement="bottom" title="Add a home">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </a>
+            </div>
+        </div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<table ng-table="tableParams" show-filter="true" template-pagination="custom/pager" class="table table-bordered table-hover">
+			    <tbody>
+            <tr ng-repeat="home in $data">
+              <td data-title="'Id'" sortable="'id'" style="text-align: center"><a
+                ng-href="#/homes/{{ home.id }}"><span class="">{{ home.id }}</span></a></td>
+              <td data-title="'Owner'" sortable="'person'" filter="{ 'person': 'text' }"  style="text-align: center"><a
+                ng-href="#/persons/{{ home.person.id }}">{{ home.person.firstname }} {{ home.person.name }}</a></td>
+              <td data-title="'Address'" sortable="'address'" filter="{ 'address': 'text' }"  style="text-align: center">{{ home.address }}</td>
+              <td data-title="'Ip address'" sortable="'email'" filter="{ 'email': 'text' }" style="text-align: center">{{ home.ipAddress }}</td>
+              <td data-title="'Size'" sortable="'size'" filter="{ 'size': 'text' }" style="text-align: center">{{ home.size }}</td>
+              <td data-title="'Room qty'" sortable="'size'" filter="{ 'roomQty': 'text' }" style="text-align: center">{{ home.roomQty }}</td>
+              <td data-title="'Actions'">
+                <div class="btn-group" role="group">
+                  <button ng-really-message="Delete ?"
+                          ng-really-click="delete(home.id)" type="button"
+                          class="btn btn-link btn-xs btn-remove">
+                    <span class="glyphicon glyphicon-trash" style="color: red;" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+			    </tbody>
+		    </table>
+		</div>
+	</div>
+</div>
+<script type="text/ng-template" id="custom/pager">
+	<ul class="pager ng-cloak">
+		<li ng-repeat="page in pages" ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}" ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+			<a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo; Previous</a>
+			<a ng-switch-when="next" ng-click="params.page(page.number)" href="">Next &raquo;</a>
+		</li>
+		<li>
+			<div class="btn-group">
+				<button type="button" ng-class="{'active':params.count() == 10}" ng-click="params.count(10)" class="btn btn-default">10</button>
+				<button type="button" ng-class="{'active':params.count() == 25}" ng-click="params.count(25)" class="btn btn-default">25</button>
+				<button type="button" ng-class="{'active':params.count() == 50}" ng-click="params.count(50)" class="btn btn-default">50</button>
+				<button type="button" ng-class="{'active':params.count() == 100}" ng-click="params.count(100)" class="btn btn-default">100</button>
+			</div>
+		</li>
+	</ul>
+</script>
+<script type="text/ng-template" id="ng-table/headers/checkbox.html">
+        <input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
+    </script>
