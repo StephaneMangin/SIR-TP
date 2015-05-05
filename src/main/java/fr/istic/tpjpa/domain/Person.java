@@ -1,4 +1,5 @@
 package fr.istic.tpjpa.domain;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,7 +10,11 @@ import javax.persistence.*;
 
 @Entity
 public class Person implements Serializable {
-	
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String name;
 	private String firstname;
@@ -19,10 +24,7 @@ public class Person implements Serializable {
     private Date birthday;
     private List<Home> homes = new ArrayList<Home>();
     private List<Person> friends = new ArrayList<Person>();
-    
-    public Person() {
-		super();
-	}
+
 	@Id
 	@GeneratedValue
 	public long getId() {
@@ -31,25 +33,25 @@ public class Person implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	/**
 	 * Retourne la liste de maison
-	 * 
+	 *
 	 * @return
 	 */
-	@OneToMany(cascade=CascadeType.PERSIST, mappedBy="person")
+	@OneToMany(mappedBy="person", cascade=CascadeType.ALL, orphanRemoval=true)
 	public List<Home> getHomes() {
 		return homes;
 	}
 	/**
 	 * Remplace la liste de maison
 	 * Attention appel r�cursif.
-	 * 
-	 * Process de mise � jour : 
+	 *
+	 * Process de mise � jour :
 	 * Pour chaque ancienne maison, d�sattribuer this uniquement si this est la relation d'origines.
 	 * Remettre � jour les nouvelles maison en attribuant this uniquement si aucune personne n'a d�j� �t� attribu�.
 	 * On remplace effectivement la liste de maison par la nouvelle remise � jour le cas �ch�ant (maison d�j� attribu�e).
-	 * 
+	 *
 	 * @param homes
 	 */
 	public void setHomes(List<Home> homes) {
@@ -58,6 +60,7 @@ public class Person implements Serializable {
 				home.setPerson(null);
 			}
 		}
+		this.homes.clear();
 		List<Home> actual_homes = new ArrayList<Home>();
 		for (Home home: homes) {
 			if (home.getPerson() == null) {
@@ -68,12 +71,12 @@ public class Person implements Serializable {
 		this.homes = actual_homes;
 
 	}
-	/** 
+	/**
 	 * Ajouter une maison
-	 * 
+	 *
 	 * Attention appel r�cursif, ne pas s'attribuer la maison si d�j� attribuer � quelqu'un.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param home
 	 */
 	public void addHome(Home home) {
@@ -84,10 +87,10 @@ public class Person implements Serializable {
 	}
 	/**
 	 * Supprimer une maison
-	 * 
+	 *
 	 * Attention appel r�cursif, ne modifier la relation si this est le propri�taire de la maison
 	 * et que la maison a bien comme propri�taire this.
-	 * 
+	 *
 	 * @param home
 	 */
 	public void delHome(Home home) {
@@ -98,26 +101,27 @@ public class Person implements Serializable {
 	}
 	/**
 	 * Retourne la liste d'amis
-	 * 
+	 *
 	 * @return
 	 */
-	@ManyToMany
-/*	  @JoinTable(
-	      name="person_friends",
-	      joinColumns={@JoinColumn(name="person_id", referencedColumnName="id")},
-	      inverseJoinColumns={@JoinColumn(name="friend_id", referencedColumnName="id")})*/
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(
+	  name="person_friends",
+	  joinColumns={@JoinColumn(name="person_id", referencedColumnName="id")},
+	  inverseJoinColumns={@JoinColumn(name="friend_id", referencedColumnName="id")})
 	public List<Person> getFriends() {
 		return friends;
 	}
-	
+
 	/**
 	 * Remplace la liste d'amis et met � jour la liste de chaque ami
 	 * Attention car appel r�cursif, l'invariante d'arr�t est la pr�sence
 	 * de this dans la liste de l'ami.
-	 * 
+	 *
 	 * @param friends
 	 */
 	public void setFriends(List<Person> friends) {
+		this.friends.clear();
 		List<Person> actual_friends = new ArrayList<Person>();
 		// On commence par supprimer this dans chaque ancien ami.
 		for (Person friend: friends) {
@@ -135,7 +139,7 @@ public class Person implements Serializable {
 	/**
 	 * Ajoute un ami et ajout this dans la liste de l'ami
 	 * Attention appel r�cursif, l'invariante d'arr�t est que this n'est pas d�j� dans la liste du nouvel ami
-	 * 
+	 *
 	 * @param friend
 	 */
 	public void addFriend(Person friend) {
@@ -147,7 +151,7 @@ public class Person implements Serializable {
 	/**
 	 * Supprime un ami
 	 * Attention car r�cursif, l'invariante d'arr�t est la pr�sence de this dans la liste d'ami de old_friend
-	 * 
+	 *
 	 * @param old_friend
 	 */
 	public void delFriend(Person old_friend) {
@@ -155,7 +159,7 @@ public class Person implements Serializable {
 		if (old_friend.getFriends().contains(this)) {
 			old_friend.delFriend(this);
 		}
-		
+
 	}
 	public String getName() {
 		return name;
@@ -187,9 +191,11 @@ public class Person implements Serializable {
 	public void setFacebookProfile(String facebookProfile) {
 		this.facebookProfile = facebookProfile;
 	}
+	@Temporal(TemporalType.DATE)
 	public Date getBirthday() {
 		return birthday;
 	}
+
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
