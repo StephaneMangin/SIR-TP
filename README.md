@@ -1,4 +1,4 @@
-# Intégration Jpa, Servlet, AngularJS et GWT
+# Intégrations Jpa, Servlet, AngularJS et GWT
 
 ## Branche Jpa (Persistance)
 
