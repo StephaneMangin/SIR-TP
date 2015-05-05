@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 import fr.istic.tpjpa.domain.AbstractDevice;
 
-@Path("/heaters")
+@Path("/devices")
 public class DeviceController {
 
 	private EntityManagerFactory factory;
@@ -36,7 +36,7 @@ public class DeviceController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<AbstractDevice> getAction() {
 		TypedQuery<AbstractDevice> q = manager.createQuery(
-				"select distinct ad from AbstractDevice ad", AbstractDevice.class);
+				"select distinct h from AbstractDevice h", AbstractDevice.class);
 		return q.getResultList();
 	}
 
@@ -45,7 +45,7 @@ public class DeviceController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public AbstractDevice getAction(@PathParam("id") Long id) {
 		TypedQuery<AbstractDevice> q = manager.createQuery(
-				"select distinct ad from Heater ad where id=:id", AbstractDevice.class)
+				"select distinct h from AbstractDevice h where id=:id", AbstractDevice.class)
 				.setParameter("id", id);
 		return q.getSingleResult();
 	}
@@ -63,11 +63,11 @@ public class DeviceController {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public AbstractDevice putAction(AbstractDevice heater) {
+	public AbstractDevice putAction(AbstractDevice abstractDevice) {
 		tx.begin();
-		manager.persist(heater);
+		manager.merge(abstractDevice);
 		tx.commit();
-		return heater;
+		return abstractDevice;
 	}
 
 	@DELETE

@@ -9,7 +9,7 @@ import fr.istic.tpjpa.domain.*;
 
 public class JpaTest {
 
-	private EntityManager manager;
+    private EntityManager manager;
 
 	public JpaTest(EntityManager manager) {
 		this.manager = manager;
