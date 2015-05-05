@@ -124,16 +124,16 @@ public class JpaTest {
 		person2.setBirthday(new Date(03, 12, 1950));
 		createHome(person2, 1, 8, 6);
 
-        // Personne 3
-        Person person3 = new Person();
-        person3.setName("Marcel");
-        person3.setFirstname("Lucien");
-        person3.setEmail("lucien.marcel@gmail.com");
-        person3.setGender("Masculin");
-        person3.setFacebookProfile(person3.getName()+"."+person3.getFirstname());
-        person3.setBirthday(new Date(12, 06, 1974));
-        manager.persist(person3);
-        createHome(person3, 1, 12, 23);
+		// Personne 3
+		Person person3 = new Person();
+		manager.persist(person3);
+		person3.setName("Marcel");
+		person3.setFirstname("Lucien");
+		person3.setEmail("lucien.marcel@gmail.com");
+		person3.setGender("Masculin");
+		person3.setFacebookProfile(person3.getName()+"."+person3.getFirstname());
+		person3.setBirthday(new Date(12, 06, 1974));
+		createHome(person3, 1, 12, 23);
 
 		// Personne 4
 		Person person4 = new Person();
@@ -141,23 +141,23 @@ public class JpaTest {
 		person4.setName("Beaufort");
 		person4.setFirstname("Yvan");
 		person4.setEmail("yvan.beaufort@yahoo.fr");
-        person4.setGender("Masculin");
-        person4.setFacebookProfile(person4.getName() + "." + person4.getFirstname());
+		person4.setGender("Masculin");
+		person4.setFacebookProfile(person4.getName()+"."+person4.getFirstname());
 		person4.setBirthday(new Date(10, 02, 2015));
-        createHome(person4, 1, 4, 7);
+		createHome(person4, 1, 4, 7);
 
-        // Personne 5
-        Person person5 = new Person();
+		// Personne 5
+		Person person5 = new Person();
 		manager.persist(person5);
 		person5.setName("Martin");
 		person5.setFirstname("Delphine");
 		person5.setEmail("delphine.martin@orange.fr");
-        person5.setGender("Feminin");
-        person5.setFacebookProfile(person5.getName() + "." + person5.getFirstname());
+		person5.setGender("Feminin");
+		person5.setFacebookProfile(person5.getName()+"."+person5.getFirstname());
 		person5.setBirthday(new Date(05, 03, 1990));
-        createHome(person5, 1, 3, 9);
-
-        // Attribution des amis
+		createHome(person5, 1, 3, 9);
+		
+		// Attribution des amis
 		person1.addFriend(person2);
 		person1.addFriend(person3);
 		person2.addFriend(person3);
