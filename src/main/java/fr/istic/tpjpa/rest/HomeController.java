@@ -17,8 +17,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.sun.jersey.spi.resource.Singleton;
 import fr.istic.tpjpa.domain.Home;
 
+@Singleton
 @Path("/homes")
 public class HomeController {
 
