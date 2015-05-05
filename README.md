@@ -43,6 +43,17 @@ Ensuite aller à la page http://localhost:8080 pour acéder à la page AngularJS
   
 ## Branche GWT
 
+### Récupération de la branche :
+
+    $ git branch GWT
+    $ git checkout GWT
+    $ git pull origin GWT
+
+### Configuration du projet
+
+    $ mvn clean install
+    $ mvn gwt:run
+    
 ## NoSQL MongoDB
 
 ### Description
@@ -71,6 +82,7 @@ Manque d'intégrité transactionnelle importante pour certaines fonctionnalités
 ### Réponses au TP NoSQL REDIS
 
 `Redis` est un type de base de données NoSQL qui permet de manipuler de simples données et des ensembles ordonnées et stocke ces données sous forme de clé/valeur.
+
 #### Exemple 1
     public class App {
       public static void main( String[] args ) {
