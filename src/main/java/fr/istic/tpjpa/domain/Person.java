@@ -44,7 +44,7 @@ public class Person implements Serializable {
 	 * @return
 	 */
 	@JsonManagedReference("person-home")
-	@OneToMany(mappedBy="person", cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy="person", cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	public List<Home> getHomes() {
 		return homes;
 	}

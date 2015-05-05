@@ -47,16 +47,12 @@
 				class="table table-bordered table-hover">
 				<caption>
           <span class="fa fa-home fa-lg"> Heaters</span>
-          <a ng-really-click="addHeater()" class="btn btn-success" role="button" data-toggle="tooltip" data-placement="bottom" title="Add a heater">
-            <span class="glyphicon glyphicon-plus"></span>
-          </a>
         </caption>
-				<tr ng-repeat="heater in $data">
-					<td data-title="'Address'" sortable="'label'"><a
-						ng-href="#/parc/{{ parc.id }}">{{ home.address }}</a></td>
+				<tr ng-repeat="device in $data">
+					<td data-title="'Name'">{{ device.name }}</td>
 					<td data-title="'Actions'"><button
 							ng-really-message="Delete ?"
-							ng-really-click="delete({{$index}})" type="button"
+							ng-really-click="deleteDevice(home, device)" type="button"
 							class="btn btn-link btn-xs btn-remove">
 							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 						</button></td>
@@ -71,13 +67,10 @@
           <span class="fa fa-user fa-lg"> Electronic devices</span></a>
         </caption>
         <tr ng-repeat="device in $data">
-          <td data-title="'Name'" sortable="'name'" filter="{ 'name': 'text' }" style="text-align: center"><a
-            ng-href="#/homes/{{ home.id }}">{{ home.firstname }} {{ home.name }}</a></td>
-          <td data-title="'Gender'" sortable="'gender'" filter="{ 'gender': 'text' }"  style="text-align: center">{{ home.gender }}</td>
-          <td data-title="'Email'" sortable="'email'" filter="{ 'email': 'text' }" style="text-align: center">{{ home.email }}</td>
+          <td data-title="'Name'">{{ device.name }}</td>
           <td data-title="'Actions'"><button
           ng-really-message="Delete ?"
-          ng-really-click="delete({{$index}})" type="button"
+          ng-really-click="deleteDevice(home, device)" type="button"
           class="btn btn-link btn-xs btn-remove">
           <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </button></td>

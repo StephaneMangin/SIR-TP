@@ -23,12 +23,9 @@
                 counts: [], // hide page counts control
                 total: 1,  // value less than count hide pagination
                 getData: function ($defer, params) {
-                    var orderedData = params.filter() ? $filter('filter')($scope.home.devices, params.filter()) : $scope.home.devices;
-                    orderedData = params.sorting() ? $filter('orderBy')(orderedData, params.orderBy()) : orderedData;
-                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-
-                    params.total(orderedData.length);
-                    $defer.resolve($scope.home.devices);
+                    var devices = $filter('filter')($scope.home.devices, { type: 'Heater'});
+                    params.total(devices.length);
+                    $defer.resolve(devices);
                 }
             });
 
@@ -39,12 +36,9 @@
                 counts: [], // hide page counts control
                 total: 1,  // value less than count hide pagination
                 getData: function ($defer, params) {
-                    var orderedData = params.filter() ? $filter('filter')($scope.home.devices, params.filter()) : $scope.home.devices;
-                    orderedData = params.sorting() ? $filter('orderBy')(orderedData, params.orderBy()) : orderedData;
-                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-
-                    params.total(orderedData.length);
-                    $defer.resolve($scope.home.devices);
+                    var devices = $filter('filter')($scope.home.devices, { type: 'ElectronicDevice'});
+                    params.total(devices.length);
+                    $defer.resolve(devices);
                 }
             });
          });
@@ -59,11 +53,7 @@
               }, {
                   total: $scope.homes.length, // length of data
                   getData: function ($defer, params) {
-                      var orderedData = params.filter() ? $filter('filter')($scope.homes, params.filter()) : $scope.homes;
-                      orderedData = params.sorting() ? $filter('orderBy')(orderedData, $scope.tableParams.orderBy()) : orderedData;
-                      $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-
-                      params.total(orderedData.length);
+                      params.total($scope.homes.length);
                       $defer.resolve($scope.homes);
                   }
               });
@@ -77,6 +67,15 @@
                 $location.path('/homes');
             });
         });
+      };
+
+      $scope.deleteDevice = function (home, device) {
+        for (var dev in home.devices) {
+            if (dev.id == device.id) {
+              delete home.devices[dev];
+            }
+        }
+        home.$update({}, function () {});
       };
 
       $scope.addHome = function () {

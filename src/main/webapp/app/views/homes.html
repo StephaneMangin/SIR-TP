@@ -19,8 +19,6 @@
             <tr ng-repeat="home in $data">
               <td data-title="'Id'" sortable="'id'" style="text-align: center"><a
                 ng-href="#/homes/{{ home.id }}"><span class="">{{ home.id }}</span></a></td>
-              <td data-title="'Owner'" sortable="'person'" filter="{ 'person': 'text' }"  style="text-align: center"><a
-                ng-href="#/persons/{{ home.person.id }}">{{ home.person.firstname }} {{ home.person.name }}</a></td>
               <td data-title="'Address'" sortable="'address'" filter="{ 'address': 'text' }"  style="text-align: center">{{ home.address }}</td>
               <td data-title="'Ip address'" sortable="'email'" filter="{ 'email': 'text' }" style="text-align: center">{{ home.ipAddress }}</td>
               <td data-title="'Size'" sortable="'size'" filter="{ 'size': 'text' }" style="text-align: center">{{ home.size }}</td>

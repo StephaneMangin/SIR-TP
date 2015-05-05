@@ -39,7 +39,7 @@ public class Home implements Serializable {
 	 * @return
 	 */
 	@JsonBackReference("person-home")
-	@ManyToOne()
+	@ManyToOne(cascade={CascadeType.REMOVE})
 	public Person getPerson() {
 		return person;
 	}
@@ -67,7 +67,7 @@ public class Home implements Serializable {
 	 * @return
 	 */
 	@JsonManagedReference("home-device")
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
 			name="home_device",
 			joinColumns={@JoinColumn(name="home_id", referencedColumnName="id")},

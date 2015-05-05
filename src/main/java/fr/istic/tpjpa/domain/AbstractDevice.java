@@ -62,7 +62,7 @@ public abstract class AbstractDevice implements Serializable {
 	 * @return
 	 */
 	@JsonBackReference("home-device")
-	@ManyToMany(mappedBy="devices")
+	@ManyToMany(mappedBy="devices", cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	public List<Home> getHomes() {
 		return homes;
 	}
