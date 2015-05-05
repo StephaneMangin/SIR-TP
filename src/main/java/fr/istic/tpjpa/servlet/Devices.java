@@ -92,7 +92,7 @@ public class Devices extends HttpServlet {
 		AbstractDevice device = null;
 		if (request.getParameter("type").equals("Heater")) {
 			device = new Heater();
-		} else if (request.getParameter("type").equals("ElectronicDevice")) {
+		} else {
 			device = new ElectronicDevice();
 		}
 		device.setWattHeure(Integer.parseInt(request.getParameter("wattHeure")));
