@@ -87,7 +87,7 @@ public class Person implements Serializable {
 	 */
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
-	  name="person_friends",
+	  name="person_friend",
 	  joinColumns={@JoinColumn(name="person_id", referencedColumnName="id")},
 	  inverseJoinColumns={@JoinColumn(name="friend_id", referencedColumnName="id")})
 	public List<Person> getFriends() {
@@ -119,12 +119,12 @@ public class Person implements Serializable {
 	 * Supprime un ami
 	 * Attention car r�cursif, l'invariante d'arr�t est la pr�sence de this dans la liste d'ami de old_friend
 	 *
-	 * @param old_friend
+	 * @param friend
 	 */
-	public void delFriend(Person old_friend) {
-		this.friends.remove(old_friend);
-		if (old_friend.getFriends().contains(this)) {
-			old_friend.delFriend(this);
+	public void delFriend(Person friend) {
+		this.friends.remove(friend);
+		if (friend.getFriends().contains(this)) {
+			friend.delFriend(this);
 		}
 
 	}
