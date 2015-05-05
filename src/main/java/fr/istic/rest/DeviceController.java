@@ -1,4 +1,4 @@
-package fr.istic.tpjpa.rest;
+package fr.istic.rest;
 
 import java.util.Collection;
 
@@ -17,36 +17,35 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import fr.istic.tpjpa.domain.Home;
+import fr.istic.domain.AbstractDevice;
 
-@Path("/homes")
-public class HomeController {
+@Path("/devices")
+public class DeviceController {
 
 	private EntityManagerFactory factory;
 	private EntityManager manager;
 	private EntityTransaction tx;
 
-	public HomeController() {
-			factory = Persistence.createEntityManagerFactory("example");
-			manager = factory.createEntityManager();
-			tx = manager.getTransaction();
-		
+	public DeviceController() {
+		factory = Persistence.createEntityManagerFactory("example");
+		manager = factory.createEntityManager();
+		tx = manager.getTransaction();
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Home> getAction() {
-		TypedQuery<Home> q = manager.createQuery(
-				"select distinct h from Home h", Home.class);
+	public Collection<AbstractDevice> getAction() {
+		TypedQuery<AbstractDevice> q = manager.createQuery(
+				"select distinct h from AbstractDevice h", AbstractDevice.class);
 		return q.getResultList();
 	}
 
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Home getAction(@PathParam("id") Long arg0) {
-		TypedQuery<Home> q = manager.createQuery(
-				"select distinct h from Home h where id=:id", Home.class)
+	public AbstractDevice getAction(@PathParam("id") String arg0) {
+		TypedQuery<AbstractDevice> q = manager.createQuery(
+				"select distinct h from AbstractDevice h where id=:id", AbstractDevice.class)
 				.setParameter("id", arg0);
 		return q.getSingleResult();
 	}
@@ -54,38 +53,38 @@ public class HomeController {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Home postAction(Home home) {
+	public AbstractDevice postAction(AbstractDevice heater) {
 		tx.begin();
-		manager.persist(home);
+		manager.persist(heater);
 		tx.commit();
-		return home;
+		return heater;
 	}
 
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Home putAction(@PathParam("id") String arg0) {
-		TypedQuery<Home> q = manager.createQuery(
-				"select distinct h from Home h where id=:id", Home.class)
+	public AbstractDevice putAction(@PathParam("id") String arg0) {
+		TypedQuery<AbstractDevice> q = manager.createQuery(
+				"select distinct h from AbstractDevice h where id=:id", AbstractDevice.class)
 				.setParameter("id", arg0);
-		Home home = q.getSingleResult();
+		AbstractDevice heater = q.getSingleResult();
 		tx.begin();
-		manager.persist(home);
+		manager.persist(heater);
 		tx.commit();
-		return home;
+		return heater;
 	}
 
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean deleteAction(@PathParam("id") String arg0) {
-		TypedQuery<Home> q = manager.createQuery(
-				"select distinct h from Home h where id=:id", Home.class)
+		TypedQuery<AbstractDevice> q = manager.createQuery(
+				"select distinct h from AbstractDevice h where id=:id", AbstractDevice.class)
 				.setParameter("id", arg0);
-		Home home = q.getSingleResult();
+		AbstractDevice heater = q.getSingleResult();
 		tx.begin();
-		manager.remove(home);
+		manager.remove(heater);
 		tx.commit();
 		return true;
 	}

@@ -1,6 +1,6 @@
-package fr.istic.tpjpa.rest;
+package fr.istic.rest;
 
-import fr.istic.tpjpa.domain.Person;
+import fr.istic.domain.Person;
 
 import javax.persistence.*;
 import javax.ws.rs.*;

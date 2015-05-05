@@ -1,6 +1,6 @@
-package fr.istic.tpjpa.client;
+package fr.istic.client;
 
-import fr.istic.tpjpa.shared.FieldVerifier;
+import fr.istic.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

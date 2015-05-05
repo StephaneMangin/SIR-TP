@@ -1,4 +1,4 @@
-package fr.istic.tpjpa.shared;
+package fr.istic.shared;
 
 /**
  * <p>

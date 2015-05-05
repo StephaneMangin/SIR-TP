@@ -1,4 +1,4 @@
-package fr.istic.tpjpa.client;
+package fr.istic.client;
 
 public interface Messages extends com.google.gwt.i18n.client.Messages {
   

@@ -13,7 +13,7 @@
   <!-- Other module inherits                                      -->
 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='fr.istic.tpjpa.client.tpjpa' />
+  <entry-point class='fr.istic.client.tpjpa' />
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client' />

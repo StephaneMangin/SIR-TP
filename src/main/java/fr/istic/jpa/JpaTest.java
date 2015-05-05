@@ -1,11 +1,11 @@
-package fr.istic.tpjpa.jpa;
+package fr.istic.jpa;
 
 import java.sql.Date;
 import java.util.*;
 
 import javax.persistence.*;
 
-import fr.istic.tpjpa.domain.*;
+import fr.istic.domain.*;
 
 public class JpaTest {
 

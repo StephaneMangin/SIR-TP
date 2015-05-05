@@ -21,7 +21,7 @@
 
     <servlet>
         <servlet-name>GWT Web Application</servlet-name>
-        <servlet-class>fr.istic.tpjpa.server.GreetingServiceImpl</servlet-class>
+        <servlet-class>fr.istic.server.GreetingServiceImpl</servlet-class>
     </servlet>
 
     <servlet-mapping>

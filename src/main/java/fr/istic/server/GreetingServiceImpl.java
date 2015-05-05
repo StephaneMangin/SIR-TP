@@ -1,7 +1,7 @@
-package fr.istic.tpjpa.server;
+package fr.istic.server;
 
-import fr.istic.tpjpa.client.GreetingService;
-import fr.istic.tpjpa.shared.FieldVerifier;
+import fr.istic.client.GreetingService;
+import fr.istic.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -9,7 +9,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
-    GreetingService {
+        GreetingService {
 
   public String greetServer(String input) throws IllegalArgumentException {
     // Verify that the input is valid.
