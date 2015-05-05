@@ -6,18 +6,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class Home implements Serializable {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private long id;
@@ -27,7 +22,7 @@ public class Home implements Serializable {
 	private int roomQty;
 	private Person person;
 	private List<AbstractDevice> devices = new ArrayList<AbstractDevice>();
-		
+
 	@Id
 	@GeneratedValue
 	public long getId() {
@@ -36,26 +31,26 @@ public class Home implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	/**
 	 * Retourne la propri�taire de la maison
-	 * 
+	 *
 	 * @return
 	 */
 	@JsonBackReference("person-home")
-	@ManyToOne
+	@ManyToOne()
 	public Person getPerson() {
 		return person;
 	}
 
-	/** 
+	/**
 	 * Modifie le propri�taire
-	 * 
+	 *
 	 * Process de mise � jour:
 	 * V�rifier que ce n'est pas une suppession de propri�taire
 	 * V�rifie que le propri�taire actuel n'est pas d�j� le m�me que le nouveau
 	 * Faire l'appel r�cursif sur l'ajout d'une maison au propri�taire
-	 * 
+	 *
 	 * @param person
 	 */
 	public void setPerson(Person person) {
@@ -89,73 +84,45 @@ public class Home implements Serializable {
 	public void setRoomQty(int roomQty) {
 		this.roomQty = roomQty;
 	}
-	
+
 	/**
 	 * Retourn la liste des devices
-	 * 
+	 *
 	 * @return
 	 */
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="home")
+	@ManyToMany(cascade=CascadeType.PERSIST)
+	@JoinTable(
+			name="home_device",
+			joinColumns={@JoinColumn(name="home_id", referencedColumnName="id")},
+			inverseJoinColumns={@JoinColumn(name="device_id", referencedColumnName="id")})
 	public List<AbstractDevice> getDevices() {
 		return devices;
 	}
-	
+
 	/**
 	 * Remplace la liste de devices
-	 * Attention appel r�cursif.
-	 * 
-	 * Process de mise � jour : 
-	 * Pour chaque ancienne maison, d�sattribuer this uniquement si this est la relation d'origines.
-	 * Remettre � jour les nouveaux devices en attribuant this uniquement si aucune maison n'a d�j� �t� attribu�.
-	 * On remplace effectivement la liste de devices par la nouvelle remise � jour le cas �ch�ant (device d�j� attribu�e).
-	 * 
+	 *
 	 * @param devices
 	 */
 	public void setDevices(List<AbstractDevice> devices) {
-		for (AbstractDevice device: this.devices) {
-			if (device.getHome().equals(this)) {
-				device.setHome(null);
-			}
-		}
-		List<AbstractDevice> actual_devices = new ArrayList<AbstractDevice>();
-		for (AbstractDevice device: devices) {
-			if (device.getHome() == null) {
-				device.setHome(this);
-				actual_devices.add(device);
-			}
-		}
-		this.devices = actual_devices;
-
+		this.devices.clear();
+		this.devices = devices;
 	}
-	/** 
+	/**
 	 * Ajouter un device
-	 * 
-	 * Attention appel r�cursif.
-	 * On commence par enlever le device de son ancienne maison potentielle.
-	 * 
-	 * 
-	 * @param abstractDevice
+	 *
+	 * @param device
 	 */
-	public void addDevice(AbstractDevice abstractDevice) {
-		if (abstractDevice.getHome() != null) {
-			abstractDevice.getHome().delDevice(abstractDevice);
-		}
-		this.devices.add(abstractDevice);
-		abstractDevice.setHome(this);
+	public void addDevice(AbstractDevice device) {
+		this.devices.add(device);
 	}
 	/**
 	 * Supprimer un device
-	 * 
-	 * Attention appel r�cursif, ne modifier la relation que si this est le propri�taire du device
-	 * et que le device a bien comme propri�taire this.
-	 * 
+	 *
 	 * @param device
 	 */
 	public void delDevice(AbstractDevice device) {
-		if (device.getHome().equals(this) && this.devices.contains(device)) {
-			this.devices.remove(device);
-			device.setHome(null);
-		}
+		this.devices.remove(device);
 	}
-	
+
 }
