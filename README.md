@@ -4,13 +4,13 @@
 
 Cette branche est le tronc commun de toutes les intégrations.
 
-## Branche Servlet
+## Branche Servlets
 
 ### Récupération de la branche :
   
-    $ git branch Servlet
-    $ git checkout Servlet
-    $ git pull origin Servlet
+    $ git branch Servlets
+    $ git checkout Servlets
+    $ git pull origin Servlets
     
 ### Configuration du projet
 
@@ -54,6 +54,8 @@ Ensuite aller à la page http://localhost:8080 pour acéder à la page AngularJS
     $ mvn clean install
     $ mvn gwt:run
     
+__Cette intégration n'a pu être faite à cause de trop nombreuses erreurs bloquantes. La priorité a été donnée au projet professionnel__.
+
 ## NoSQL MongoDB
 
 ### Description
