@@ -66,6 +66,7 @@ public class Home implements Serializable {
 	 *
 	 * @return
 	 */
+	@JsonManagedReference("home-device")
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
 			name="home_device",

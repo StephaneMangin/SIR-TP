@@ -1,5 +1,6 @@
 package fr.istic.tpjpa.rest;
 
+import com.sun.jersey.spi.resource.Singleton;
 import fr.istic.tpjpa.domain.Person;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 
+@Singleton
 @Path("/persons")
 public class PersonController {
 

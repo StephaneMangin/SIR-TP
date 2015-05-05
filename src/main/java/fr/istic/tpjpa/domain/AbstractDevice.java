@@ -1,7 +1,6 @@
 package fr.istic.tpjpa.domain;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,6 +61,7 @@ public abstract class AbstractDevice implements Serializable {
 	 *
 	 * @return
 	 */
+	@JsonBackReference("home-device")
 	@ManyToMany(mappedBy="devices")
 	public List<Home> getHomes() {
 		return homes;
