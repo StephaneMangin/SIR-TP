@@ -1,6 +1,7 @@
 package fr.istic.tpjpa.domain;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import java.io.Serializable;
@@ -89,6 +90,7 @@ public class Person implements Serializable {
 	 *
 	 * @return
 	 */
+	@JsonIgnore
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
 	  name="person_friend",

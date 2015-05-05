@@ -45,9 +45,6 @@
 				class="table table-bordered table-hover">
 				<caption>
           <span class="fa fa-home fa-lg"> Homes</span>
-          <a ng-really-click="addHome()" class="btn btn-success" role="button" data-toggle="tooltip" data-placement="bottom" title="Add a home">
-            <span class="glyphicon glyphicon-plus"></span>
-          </a>
         </caption>
 				<tr ng-repeat="home in $data">
 					<td data-title="'Address'" sortable="'label'"><a
@@ -67,9 +64,6 @@
              class="table table-bordered table-hover">
         <caption>
           <span class="fa fa-user fa-lg"> Friends</span></a>
-          <a ng-really-click="addFriend()" class="btn btn-success" role="button" data-toggle="tooltip" data-placement="bottom" title="Add a friend">
-            <span class="glyphicon glyphicon-plus"></span>
-          </a>
         </caption>
         <tr ng-repeat="home in $data">
           <td data-title="'Name'" sortable="'name'" filter="{ 'name': 'text' }" style="text-align: center"><a
